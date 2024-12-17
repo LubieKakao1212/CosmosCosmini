@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>12</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <ModsPath>mods/</ModsPath>
+    </PropertyGroup>
+    
+    <ItemDefinitionGroup>
+        <ModAssembly>
+            <Mod>base</Mod>
+            <Dir>$(OutputPath)</Dir>
+        </ModAssembly>
+    </ItemDefinitionGroup>
+    
+    <ItemGroup>
+        <ModAssets Include="ModAssets/**/*" />
+        <ModAssembly Include="$(AssemblyName).dll" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\CosmosCosmini\CosmosCosmini.csproj" />
+    </ItemGroup>
+
+    <Target Name="PrepareModAssets" AfterTargets="AfterBuild">
+        <RemoveDir Directories="$(OutputPath)mods" />
+        <MakeDir Directories="$(OutputPath)mods" />
+        <Copy SourceFiles="@(ModAssets)" DestinationFiles=
+                "@(ModAssets->'$(OutputPath)$(ModsPath)%(RecursiveDir)%(Filename)%(Extension)')" />
+    </Target>
+    
+    <Target Name="MoveModAssemblies" AfterTargets="PrepareModAssets" >
+        <ItemGroup>
+            <ToMove Include="@(ModAssembly->'%(Dir)%(Filename)%(Extension)')">
+                <Mod>%(Mod)</Mod>
+            </ToMove>
+        </ItemGroup>
+        <Move SourceFiles="@(ToMove)" DestinationFiles="@(ToMove->'$(OutputPath)%(RecursiveDir)$(ModsPath)%(Mod)/%(Filename)%(Extension)')"/>
+    </Target>
+    
+</Project>

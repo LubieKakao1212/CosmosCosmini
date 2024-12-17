@@ -13,7 +13,7 @@ public class ConstructFilesystemsPhase : ILoadingPhase {
 
         var db = (IContentDatabase<Mod>)modLoader.MasterDb.GetByContentType<Mod>()!;
         
-        //Not TODO INFO: Last mod is searched first for files
+        //INFO: Last mod is searched first for files TODO add do modding doc
         foreach (var mod in db.ContentValues) {
             var fs = mod.GetGlobalObject<ModLocalFilesystemContainer>(typeof(ModLocalFilesystemContainer), () => null!)
                 .ModLocalFileSystem;

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosCosmini", "CosmosCosmini\CosmosCosmini.csproj", "{B9337691-4319-4754-B361-6497C923B91B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseMod", "BaseMod\BaseMod.csproj", "{9D45BFBE-7C21-4625-A95F-BF24FF257A0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{B9337691-4319-4754-B361-6497C923B91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9337691-4319-4754-B361-6497C923B91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9337691-4319-4754-B361-6497C923B91B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D45BFBE-7C21-4625-A95F-BF24FF257A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D45BFBE-7C21-4625-A95F-BF24FF257A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D45BFBE-7C21-4625-A95F-BF24FF257A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D45BFBE-7C21-4625-A95F-BF24FF257A0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

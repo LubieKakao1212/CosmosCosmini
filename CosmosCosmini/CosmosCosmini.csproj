@@ -8,6 +8,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <ModsPath>mods/</ModsPath>
+    </PropertyGroup>
+    
     <ItemGroup>
       <PackageReference Include="Aether.Physics2D.Diagnostics.MG" Version="2.1.1" />
       <PackageReference Include="Aether.Physics2D.MG" Version="2.1.1" />
@@ -28,18 +32,40 @@
         <MonoGameContentReference Include="Shaders\Shaders.Content.mgcb">
             <Link>Content\Shaders.Content.mgcb</Link>
         </MonoGameContentReference>
-<!--      <ClCompile Include="Shaders\Default.fx" />-->
-<!--      <ClCompile Include="Shaders\DepthMarchedColor.fx" />-->
-<!--      <ClCompile Include="Shaders\Tilemap.fx" />-->
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Base\" />
+        <Folder Include="Base/" />
+        <Folder Include="mods\mods\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ModReference Include="..\BaseMod\BaseMod.csproj" />
+    </ItemGroup>
+    
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
         <Message Text="Restoring dotnet tools" Importance="High"/>
         <Exec Command="dotnet tool restore"/>
+    </Target>
+
+    <Target Name="ClearMods" AfterTargets="AfterBuild">
+        <Message Text="Clering Mods" Importance="high"/>
+        <RemoveDir Directories="$(OutputPath)mods" />
+        <MakeDir Directories="$(OutputPath)mods" />
+    </Target>
+    
+    <Target Name="BuildMods" AfterTargets="ClearMods">
+        <Message Text="Building Mods" Importance="high"/>
+        <MSBuild Projects="@(ModReference)" ContinueOnError="false" />
+    </Target>
+    
+    <Target Name="Copy Mods" AfterTargets="BuildMods">
+        <ItemGroup>
+            <Ref Include="@(ModReference->'%(RelativeDir)')" />
+            <ModFile Include="%(Ref.Identity)$(OutputPath)$(ModsPath)**/*" />
+        </ItemGroup>
+        <Message Text="Copying Mods" Importance="high"/>
+        <Move SourceFiles="@(ModFile)" DestinationFiles="@(ModFile->'$(OutputPath)$(ModsPath)%(RecursiveDir)%(Filename)%(Extension)')"/>
     </Target>
     
 </Project>
