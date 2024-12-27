@@ -31,6 +31,10 @@
     <ItemGroup>
       <ProjectReference Include="..\CosmosCosmini\CosmosCosmini.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="ModAssets\base\base\" />
+    </ItemGroup>
 
     <Target Name="PrepareModAssets" AfterTargets="AfterBuild">
         <RemoveDir Directories="$(OutputPath)mods" />

@@ -1,0 +1,5 @@
+source: player.png
+regions: 
+  - {
+      rect: { x : 4, y : 6 }
+  }

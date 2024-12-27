@@ -1,5 +1,4 @@
 using System.Reflection;
-using CosmosCosmini.Base;
 using CosmosCosmini.Core;
 using CosmosCosmini.JustLoadedEx;
 using JustLoaded.Content;
@@ -32,6 +31,12 @@ public static class CoreMod {
             public static readonly ContentKey ConstructFs = CreateKey("construct-filesystem");
             public static readonly ContentKey RegisterDb = CreateKey("register-db");
             public static readonly ContentKey RegisterContentAuto = CreateKey("register-content-auto");
+            public static readonly ContentKey LoadSprites = CreateKey("load-sprites");
+        }
+        
+        public static class Database {
+            public static readonly ContentKey Sprites = CreateKey("sprites");
+            public static readonly ContentKey SpriteAnimations = CreateKey("animations");
         }
     }
 }

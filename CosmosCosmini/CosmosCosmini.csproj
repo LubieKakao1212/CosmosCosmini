@@ -18,10 +18,10 @@
       <PackageReference Include="Custom2d_Engine" Version="0.0.1" />
       <PackageReference Include="Custom2d_Engine.FMOD" Version="0.0.1" />
       <PackageReference Include="Custom2d_Engine.Physics" Version="0.0.1" />
-      <PackageReference Include="justloaded.content" Version="0.0.6" />
-      <PackageReference Include="justloaded.core" Version="0.0.6" />
-      <PackageReference Include="justloaded.filesystem" Version="0.0.6" />
-      <PackageReference Include="justloaded.util" Version="0.0.6" />
+      <PackageReference Include="justloaded.content" Version="0.0.7" />
+      <PackageReference Include="justloaded.core" Version="0.0.7" />
+      <PackageReference Include="justloaded.filesystem" Version="0.0.7" />
+      <PackageReference Include="justloaded.util" Version="0.0.7" />
       <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
       <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
       <PackageReference Include="PathLib" Version="0.9.8" />
@@ -32,11 +32,6 @@
         <MonoGameContentReference Include="Shaders\Shaders.Content.mgcb">
             <Link>Content\Shaders.Content.mgcb</Link>
         </MonoGameContentReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Base/" />
-        <Folder Include="mods\mods\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -19,13 +19,16 @@ public class ConstructFilesystemsPhase : ILoadingPhase {
                 .ModLocalFileSystem;
             var cfs = new CombinedFilesystem();
             foreach (var path in fs.ListPaths(".".AsPath().FromAnyMod())) {
-                Console.Write("Detected path: " + path.path.Dirname);
-                cfs.AddFileSystem(path.path.Dirname, new RelativeFilesystem(fs, path.path));
+                //Filename is also a top directory name
+                Console.Write("Detected path: " + path.path.Filename);
+                cfs.AddFileSystem(path.path.Filename, new RelativeFilesystem(fs, path.path));
             }
             filesystems.Add(cfs);
         }
         filesystems.Reverse();
 
         var modFileSystem = new UnifiedFileSystem(filesystems);
+        //TODO attach to ModLoaderSystem;
+        CosmosGame.Filesystem = modFileSystem;
     }
 }
