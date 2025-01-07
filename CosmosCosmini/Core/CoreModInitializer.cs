@@ -25,5 +25,9 @@ public class CoreModInitializer : IModInitializer {
         phases.New(LoadSprites, new LoadSpritesPhase())
             .WithOrder(RegisterDb, Order.After)
             .Register();
+        
+        phases.New(LoadAnimations, new LoadAnimationsPhase())
+            .WithOrder(LoadSprites, Order.After)
+            .Register();
     }
 }

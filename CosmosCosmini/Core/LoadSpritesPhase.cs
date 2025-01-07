@@ -15,40 +15,33 @@ public class LoadSpritesPhase : ILoadingPhase {
     
     public void Load(ModLoaderSystem modLoader) {
 
-        var spritesFs = new RelativeFilesystem(CosmosGame.Filesystem, "sprites".AsPath());
-
-        var spritesDb = modLoader.MasterDb.GetDatabase<Sprite>();
+        var spritesFs = modLoader.GetModDirectory(FileSystems.SpritesDir);
         
         var graphics = CosmosGame.Game.GraphicsDevice;
         //TODO Dispose temporary textures
         var atlas = CosmosGame.Game.SpriteAtlas;
+
+        var rawTextures = new List<Texture2D>();
         
-        foreach (var spriteFile in 
-                 spritesFs.ListFiles(
-                     ".".AsPath().FromAnyMod(), 
-                     "*.tex.yaml", true)) {
-            var parsed = spritesFs.DeserializeYamlFile<ParsedSprite>(spriteFile);
-            
-            var texAssetPath = spriteFile.path.Directory.AsPath().Join(parsed.source.AsPath()).FromMod(spriteFile.modSelector);
+        modLoader.LoadFilesMulti<ParsedSprite, Sprite>(spritesFs, "tex", (sprite, key, dir) => {
+            var texAssetPath = dir.Join(sprite.source.AsPath()).FromMod(key.source);
             using var texStream = spritesFs.OpenRequiredFile(texAssetPath);
-
+            
             var tex = Texture2D.FromStream(graphics, texStream);
-
-            var sprites = atlas.AddTextureRects(tex, parsed.regions.Select(parsedRegion => new Rectangle(
+            
+            rawTextures.Add(tex);
+            var sprites = atlas.AddTextureRects(tex, sprite.regions.Select(parsedRegion => new Rectangle(
                 parsedRegion.position.Construct(), 
                 parsedRegion.rect.Construct()
                 )).ToArray());
-            
-            var idBase = spriteFile.path.BasenameWithoutExtensions;
-            idBase = spriteFile.path.ToPosix();
-            idBase = idBase.Substring(0, idBase.Length - ".tex.yaml".Length);
-            
-            for (int i=0; i<sprites.Length; i++) {
-                spritesDb.AddContent(new ContentKey(spriteFile.modSelector, $"{idBase}_{i}"), sprites[i]);
-            }
-        }
+            return sprites;
+        }, (sprite, i) => i.ToString());
         
         atlas.Compact();
+        
+        foreach (var texture in rawTextures) {
+            texture.Dispose();
+        }
     }
     
     public struct ParsedSprite() {

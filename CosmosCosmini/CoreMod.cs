@@ -32,6 +32,7 @@ public static class CoreMod {
             public static readonly ContentKey RegisterDb = CreateKey("register-db");
             public static readonly ContentKey RegisterContentAuto = CreateKey("register-content-auto");
             public static readonly ContentKey LoadSprites = CreateKey("load-sprites");
+            public static readonly ContentKey LoadAnimations = CreateKey("load-animations");
         }
         
         public static class Database {

@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using CosmosCosmini.Graphics;
 using CosmosCosmini.JustLoadedEx;
+using CosmosCosmini.Scene;
 using Custom2d_Engine.Input;
 using Custom2d_Engine.Rendering;
 using Custom2d_Engine.Rendering.Sprites;
@@ -71,12 +73,10 @@ public class CosmosGame : Game {
         InitMods();
         RenderPipeline.SpriteAtlas = SpriteAtlas.AtlasTextures!;
         
-        var s = BoundContentKey<Sprite>.Make(new ContentKey("base:player_0"))
+        var s = BoundContentKey<AnimatedSprite>.Make(new ContentKey("base:player"))
             .FetchContent(masterDb: ModLoaderSystem.MasterDb)!;
-        
-        var player = new DrawableObject(Color.White, 0) {
-            Sprite = s,
-        };
+
+        var player = new AnimatedDrawableObject(s);
         
         GameScene.AddObject(player);
     }
@@ -95,6 +95,10 @@ public class CosmosGame : Game {
 
     protected override void Draw(GameTime gameTime) {
         base.Draw(gameTime);
+
+        foreach (var (key, value) in ModLoaderSystem.MasterDb.GetDatabase<AnimatedSprite>().GetContentEntries<AnimatedSprite>()) {
+            value.Update(gameTime.ElapsedGameTime);
+        }
         
         GraphicsDevice.Clear(Color.Aqua);
         

@@ -1,0 +1,11 @@
+frameDuration: 0.15
+sequence:
+  frames: [ 
+    "base:player_0", 
+    "base:player_0",     
+    "base:player_0",
+    "base:player_0",    
+    "base:player_0",
+    "base:player_0",
+    "base:player_1" 
+  ]
