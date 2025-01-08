@@ -12,7 +12,7 @@ public static class FileSystems {
     
     public static IFilesystem GetModDirectory(this ModLoaderSystem mls, string dir) {
         //TODO use mls instead of CosmosGame
-        return Filesystems.GetOrSetToDefaultLazy(dir, s => new RelativeFilesystem(CosmosGame.Filesystem, dir.AsPath()));
+        return Filesystems.GetOrSetToDefaultLazy(dir, s => new RelativeFilesystem(mls.GetRequiredAttachment<ModFileSystem>().filesystem, dir.AsPath()));
     }
     
     public static Stream OpenRequiredFile(this IFilesystem fs, ModAssetPath filePath) {

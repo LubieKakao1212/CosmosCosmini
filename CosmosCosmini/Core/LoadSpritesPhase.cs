@@ -16,10 +16,12 @@ public class LoadSpritesPhase : ILoadingPhase {
     public void Load(ModLoaderSystem modLoader) {
 
         var spritesFs = modLoader.GetModDirectory(FileSystems.SpritesDir);
+
+        var game = modLoader.GetRequiredAttachment<CosmosGame>();
         
-        var graphics = CosmosGame.Game.GraphicsDevice;
+        var graphics = game.GraphicsDevice;
         //TODO Dispose temporary textures
-        var atlas = CosmosGame.Game.SpriteAtlas;
+        var atlas = game.SpriteAtlas;
 
         var rawTextures = new List<Texture2D>();
         

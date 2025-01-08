@@ -4,7 +4,6 @@ using CosmosCosmini.JustLoadedEx;
 using CosmosCosmini.Scene;
 using Custom2d_Engine.Input;
 using Custom2d_Engine.Rendering;
-using Custom2d_Engine.Rendering.Sprites;
 using Custom2d_Engine.Rendering.Sprites.Atlas;
 using Custom2d_Engine.Scenes;
 using Custom2d_Engine.Ticking;
@@ -12,6 +11,7 @@ using JustLoaded.Content;
 using JustLoaded.Core;
 using JustLoaded.Core.Discovery;
 using JustLoaded.Filesystem;
+using JustLoaded.Logger;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using nkast.Aether.Physics2D.Dynamics;
@@ -22,11 +22,6 @@ public class CosmosGame : Game {
 
     private GraphicsDeviceManager _graphicsManager;
     
-    //TODO Use MLS attachment system
-    [NotNull] internal static CosmosGame? Game { get; private set; }
-    //TODO Use MLS attachment system
-    [NotNull] internal static IFilesystem? Filesystem { get; set; }
-
     [NotNull] public InputManager? Input { get; private set; }
     [NotNull] public World? PhysicsWorld { get; private set; }
     [NotNull] public TickManager? GlobalTickManager { get; private set; }
@@ -39,17 +34,22 @@ public class CosmosGame : Game {
     [NotNull] public RenderPipeline? RenderPipeline { get; private set; }
     [NotNull] public SpriteAtlas<Vector4>? SpriteAtlas { get; private set; }
     [NotNull] public ModLoaderSystem? ModLoaderSystem { get; private set; }
+        
+    [NotNull] private AsyncLogger? Logger { get; set; }
     
     public CosmosGame() {
-        Game = this;
         _graphicsManager = new GraphicsDeviceManager(this);
         _graphicsManager.GraphicsProfile = GraphicsProfile.HiDef;
         _graphicsManager.HardwareModeSwitch = false;
+        _graphicsManager.PreferredBackBufferWidth = 16 * 16;
+        _graphicsManager.PreferredBackBufferHeight = 9 * 16;
         Content.RootDirectory = "Content";
     }
 
     protected override void LoadContent() {
         base.LoadContent();
+        
+        CreateLogger();
         
         RenderPipeline = new RenderPipeline();
         SpriteAtlas = new SpriteAtlas<Vector4>(GraphicsDevice);
@@ -57,7 +57,7 @@ public class CosmosGame : Game {
         GlobalTickManager = new TickManager();
         
         GameScene = new Hierarchy(GlobalTickManager);
-        GameCamera = new Camera { ViewSize = 10, AspectRatio = 16f/9f };
+        GameCamera = new Camera { ViewSize = 1f, AspectRatio = 16f/9f };
         GameScene.AddObject(GameCamera);
         
         Ui = new Hierarchy(GlobalTickManager);
@@ -105,18 +105,25 @@ public class CosmosGame : Game {
         RenderPipeline.RenderScene(GameScene, GameCamera);
         RenderPipeline.RenderScene(Ui, UiCamera);
     }
+
+    private void CreateLogger() {
+        Logger = new AsyncLogger(
+            new ConsoleLogModule(),
+            new StreamLogModule(File.Open("log.log", FileMode.Create, FileAccess.Write, FileShare.Read))
+            );
+        Logger.Start();
+    }
     
     private void CreateMls() {
         var modsFileSystem = new PhysicalFilesystem("mods".AsPath());
         ModLoaderSystem = new ModLoaderSystem.Builder(
-            new LoggingModProvider(
-                new FilesystemModProvider(
-                    modsFileSystem
-                    ).WithMods(CoreMod.Construct(modsFileSystem))
-                )
-            ) {
+                new FilesystemModProvider(modsFileSystem)
+                    .WithMods(CoreMod.Construct(modsFileSystem))
+                    .Verbose(Logger)) {
                 ModFilter = IdentityModFilter.Instance
-            }.Build();
+            }.Build()
+            .AddAttachment(this)
+            .AddAttachment<ILogger>(Logger);
     }
 
     private void InitMods() {

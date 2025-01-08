@@ -3,12 +3,15 @@ using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Core.Loading;
 using JustLoaded.Filesystem;
+using JustLoaded.Logger;
 
-namespace CosmosCosmini.Base;
+namespace CosmosCosmini.Core;
 
 public class ConstructFilesystemsPhase : ILoadingPhase {
     
     public void Load(ModLoaderSystem modLoader) {
+        var logger = modLoader.GetRequiredAttachment<ILogger>();
+        
         List<IFilesystem> filesystems = new();
 
         var db = (IContentDatabase<Mod>)modLoader.MasterDb.GetByContentType<Mod>()!;
@@ -20,7 +23,7 @@ public class ConstructFilesystemsPhase : ILoadingPhase {
             var cfs = new CombinedFilesystem();
             foreach (var path in fs.ListPaths(".".AsPath().FromAnyMod())) {
                 //Filename is also a top directory name
-                Console.Write("Detected path: " + path.path.Filename);
+                logger.Info("Detected path: " + path.path.Filename, LogFilter.Debug);
                 cfs.AddFileSystem(path.path.Filename, new RelativeFilesystem(fs, path.path));
             }
             filesystems.Add(cfs);
@@ -28,7 +31,7 @@ public class ConstructFilesystemsPhase : ILoadingPhase {
         filesystems.Reverse();
 
         var modFileSystem = new UnifiedFileSystem(filesystems);
-        //TODO attach to ModLoaderSystem;
-        CosmosGame.Filesystem = modFileSystem;
+
+        modLoader.AddAttachment(new ModFileSystem(modFileSystem));
     }
 }
