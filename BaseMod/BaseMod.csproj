@@ -22,6 +22,7 @@
     <ItemGroup>
         <ModAssets Include="ModAssets/**/*" />
         <ModAssembly Include="$(AssemblyName).dll" />
+        <!-- <ModAssembly Include="$(AssemblyName).pdb" /> -->
     </ItemGroup>
     
     <ItemGroup>
@@ -30,10 +31,6 @@
     
     <ItemGroup>
       <ProjectReference Include="..\CosmosCosmini\CosmosCosmini.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="ModAssets\base\base\" />
     </ItemGroup>
 
     <Target Name="PrepareModAssets" AfterTargets="AfterBuild">

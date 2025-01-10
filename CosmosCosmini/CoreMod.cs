@@ -29,6 +29,7 @@ public static class CoreMod {
     public static class Keys {
         public static class Phase {
             public static readonly ContentKey ConstructFs = CreateKey("construct-filesystem");
+            public static readonly ContentKey ConstructDeserializer = CreateKey("construct-deserializer");
             public static readonly ContentKey RegisterDb = CreateKey("register-db");
             public static readonly ContentKey RegisterContentAuto = CreateKey("register-content-auto");
             public static readonly ContentKey LoadSprites = CreateKey("load-sprites");

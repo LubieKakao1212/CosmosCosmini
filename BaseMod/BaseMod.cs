@@ -17,6 +17,11 @@ public class BaseMod {
     }
     
     public static class Keys {
+        
+        public static class Phases {
+            public static readonly ContentKey LoadPlayerDef = MakeKey("player-def");
+        }
+        
         public static class Sprites {
             public static readonly ContentKey Player0 = MakeKey("player_0");
         }

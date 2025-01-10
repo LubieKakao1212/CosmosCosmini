@@ -79,19 +79,30 @@ public class FilesystemModProvider(IFilesystem rootFs) : IModProvider {
     }
     
     private IEnumerable<Assembly> GetModAssemblies(ParsedMetadata parsedMetadata, IFilesystem localFilesystem) {
-        foreach (var assemblyPath in parsedMetadata.assemblies) {
-            var assemblyModAssetPath = assemblyPath.AsPath().FromAnyMod();
+        foreach (var assemblyPathRaw in parsedMetadata.assemblies) {
+            var assemblyPath = assemblyPathRaw.AsPath();
+            var assemblyModAssetPath = assemblyPath.FromAnyMod();
 
-            using var stream = localFilesystem.OpenFile(assemblyModAssetPath);
-            if (stream == null) {
+            using var assemblyStream = localFilesystem.OpenFile(assemblyModAssetPath);
+            if (assemblyStream == null) {
                 throw new ApplicationException("Invalid Assembly Path");
             }
 
-            var memStream = new MemoryStream();
+            using var symbolsStream = localFilesystem.OpenFile(assemblyPath.WithExtension(".pdb").FromAnyMod());
+
+            byte[]? symbols = null;
+
+            if (symbolsStream != null) {
+                var symbolsMemStream = new MemoryStream();
+                symbolsStream.CopyTo(symbolsMemStream);
+                symbols = symbolsMemStream.ToArray();
+            }
             
-            stream.CopyTo(memStream);
+            var assemblyMemStream = new MemoryStream();
             
-            var assembly = Assembly.Load(memStream.ToArray());
+            assemblyStream.CopyTo(assemblyMemStream);
+            
+            var assembly = Assembly.Load(assemblyMemStream.ToArray(), symbols);
             yield return assembly;
         }
     }

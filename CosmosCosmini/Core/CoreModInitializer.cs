@@ -13,10 +13,14 @@ public class CoreModInitializer : IModInitializer {
         phases.New(ConstructFs, new ConstructFilesystemsPhase())
             .Register();
         
-        phases.New(RegisterDb, new DatabaseRegistrationLoadingPhase())
+        phases.New(ConstructDeserializer, new ConstructDeserializerPhase())
             .WithOrder(ConstructFs, Order.After)
             .Register();
-
+        
+        phases.New(RegisterDb, new DatabaseRegistrationLoadingPhase())
+            .WithOrder(ConstructDeserializer, Order.After)
+            .Register();
+        
         phases.New(RegisterContentAuto, new RegisterContentLoadingPhase())
             .WithOrder(RegisterDb, Order.After)
             .Register();

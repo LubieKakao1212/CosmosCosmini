@@ -138,4 +138,10 @@ public class CosmosGame : Game {
             throw;
         }
     }
+
+    protected override void OnExiting(object sender, ExitingEventArgs args) {
+        ((ILogger)Logger).Info("Shutting down, Goodbye, See you again soon : )");
+        Logger.Dispose();
+        base.OnExiting(sender, args);
+    }
 }

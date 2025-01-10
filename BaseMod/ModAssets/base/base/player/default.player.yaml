@@ -1,0 +1,12 @@
+physics:
+maxThrust: 1
+maxAngular: 1
+sprite: "base:player"
+refs: [  
+  "base:player_0",
+  { mod: "base", path: "player_0" },
+  { content: "base:player_0", db: "core:sprites" },
+  { content: { mod: "base", path: "player_0" }, db: "core:sprites" },
+  { content: "base:player_0", db: { mod: "core", path: "sprites" } },
+  { content: { mod: "base", path: "player_0" }, db: { mod: "core", path: "sprites" } }
+]
