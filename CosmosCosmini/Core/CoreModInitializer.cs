@@ -1,3 +1,5 @@
+using CosmosCosmini.Core.Phases;
+using CosmosCosmini.JustLoadedEx;
 using JustLoaded.Core;
 using JustLoaded.Core.Entrypoint;
 using JustLoaded.Core.Loading;
@@ -26,11 +28,19 @@ public class CoreModInitializer : IModInitializer {
             .Register();
 
         phases.New(LoadSprites, new LoadSpritesPhase())
-            .WithOrder(RegisterDb, Order.After)
+            .AssetLoadPhase()
             .Register();
         
         phases.New(LoadAnimations, new LoadAnimationsPhase())
+            .AssetLoadPhase()
             .WithOrder(LoadSprites, Order.After)
+            .Register();
+        
+        phases.New(AssetLoadEnd, new DummyLoadingPhase())
+            .Register();
+
+        phases.New(RegisterSystems, new RegisterGameSystemsPhase())
+            .WithOrder(AssetLoadEnd, Order.After)
             .Register();
     }
 }

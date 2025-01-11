@@ -8,6 +8,7 @@ using Custom2d_Engine.Rendering.Sprites.Atlas;
 using Custom2d_Engine.Scenes;
 using Custom2d_Engine.Ticking;
 using JustLoaded.Content;
+using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Core.Discovery;
 using JustLoaded.Filesystem;
@@ -26,7 +27,7 @@ public class CosmosGame : Game {
     [NotNull] public World? PhysicsWorld { get; private set; }
     [NotNull] public TickManager? GlobalTickManager { get; private set; }
     
-    [NotNull] public Hierarchy? GameScene { get; private set; }
+    [NotNull] public Hierarchy? GameHierarchy { get; private set; }
     [NotNull] public Camera? GameCamera { get; private set; }
     [NotNull] public Hierarchy? Ui { get; private set; }
     public Camera UiCamera { get; } = new();
@@ -41,8 +42,8 @@ public class CosmosGame : Game {
         _graphicsManager = new GraphicsDeviceManager(this);
         _graphicsManager.GraphicsProfile = GraphicsProfile.HiDef;
         _graphicsManager.HardwareModeSwitch = false;
-        _graphicsManager.PreferredBackBufferWidth = 16 * 16;
-        _graphicsManager.PreferredBackBufferHeight = 9 * 16;
+        _graphicsManager.PreferredBackBufferWidth = 16 * 64;
+        _graphicsManager.PreferredBackBufferHeight = 9 * 64;
         Content.RootDirectory = "Content";
     }
 
@@ -53,12 +54,12 @@ public class CosmosGame : Game {
         
         RenderPipeline = new RenderPipeline();
         SpriteAtlas = new SpriteAtlas<Vector4>(GraphicsDevice);
-        PhysicsWorld = new World();
+        PhysicsWorld = new World(new Vector2(0, 0));
         GlobalTickManager = new TickManager();
         
-        GameScene = new Hierarchy(GlobalTickManager);
-        GameCamera = new Camera { ViewSize = 1f, AspectRatio = 16f/9f };
-        GameScene.AddObject(GameCamera);
+        GameHierarchy = new Hierarchy(GlobalTickManager);
+        GameCamera = new Camera { ViewSize = 16f, AspectRatio = 16f/9f };
+        GameHierarchy.AddObject(GameCamera);
         
         Ui = new Hierarchy(GlobalTickManager);
         Ui.AddObject(UiCamera);
@@ -73,21 +74,22 @@ public class CosmosGame : Game {
         InitMods();
         RenderPipeline.SpriteAtlas = SpriteAtlas.AtlasTextures!;
         
-        var s = BoundContentKey<AnimatedSprite>.Make(new ContentKey("base:player"))
-            .FetchContent(masterDb: ModLoaderSystem.MasterDb)!;
-
-        var player = new AnimatedDrawableObject(s);
-        
-        GameScene.AddObject(player);
+        foreach (var system in ((IContentDatabase<IGameSystem>)ModLoaderSystem.MasterDb.GetDatabase<IGameSystem>()).ContentValues) {
+            system.InitHierarchy(GameHierarchy);
+        }
     }
 
     protected override void Update(GameTime gameTime) {
         base.Update(gameTime);
+
+        foreach (var system in ((IContentDatabase<IGameSystem>)ModLoaderSystem.MasterDb.GetDatabase<IGameSystem>()).ContentValues) {
+            system.Update(gameTime, GameHierarchy);
+        }
         
         Input.UpdateState();
         PhysicsWorld.Step(gameTime.ElapsedGameTime);
         
-        GameScene.Update(gameTime);
+        GameHierarchy.Update(gameTime);
         Ui.Update(gameTime);
         
         GlobalTickManager.Forward(gameTime.ElapsedGameTime);
@@ -102,7 +104,7 @@ public class CosmosGame : Game {
         
         GraphicsDevice.Clear(Color.Aqua);
         
-        RenderPipeline.RenderScene(GameScene, GameCamera);
+        RenderPipeline.RenderScene(GameHierarchy, GameCamera);
         RenderPipeline.RenderScene(Ui, UiCamera);
     }
 

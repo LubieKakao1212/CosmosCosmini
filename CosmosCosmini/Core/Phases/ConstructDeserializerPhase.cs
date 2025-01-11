@@ -1,9 +1,8 @@
-using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Core.Loading;
 using YamlDotNet.Serialization;
 
-namespace CosmosCosmini.Core;
+namespace CosmosCosmini.Core.Phases;
 
 public class ConstructDeserializerPhase : EntrypointLoadingPhase<IDeserializerSetupCallback> {
 

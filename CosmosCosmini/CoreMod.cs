@@ -34,10 +34,15 @@ public static class CoreMod {
             public static readonly ContentKey RegisterContentAuto = CreateKey("register-content-auto");
             public static readonly ContentKey LoadSprites = CreateKey("load-sprites");
             public static readonly ContentKey LoadAnimations = CreateKey("load-animations");
+            
+            public static readonly ContentKey AssetLoadEnd = CreateKey("asset-load-end");
+            
+            public static readonly ContentKey RegisterSystems = CreateKey("register-systems");
         }
         
         public static class Database {
             public static readonly ContentKey Sprites = CreateKey("sprites");
+            public static readonly ContentKey GameSystems = CreateKey("systems");
             public static readonly ContentKey SpriteAnimations = CreateKey("animations");
         }
     }

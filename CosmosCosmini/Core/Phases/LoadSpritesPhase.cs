@@ -1,14 +1,12 @@
 using CosmosCosmini.Core.Def;
-using CosmosCosmini.Def;
 using Custom2d_Engine.Rendering.Sprites;
-using JustLoaded.Content;
 using JustLoaded.Core;
 using JustLoaded.Core.Loading;
 using JustLoaded.Filesystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace CosmosCosmini.Core;
+namespace CosmosCosmini.Core.Phases;
 
 public class LoadSpritesPhase : ILoadingPhase {
     

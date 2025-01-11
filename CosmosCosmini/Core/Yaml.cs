@@ -27,6 +27,7 @@ public static class Yaml {
         var db = customDb ?? modLoader.MasterDb.GetByContentType<TContent>() ?? throw new ApplicationException("Could not find requested db for loading");
         deserializer ??= modLoader.GetRequiredAttachment<IDeserializer>();
         
+        
         fs.ParseFiles<TParsed>(extension, deserializer, (parsed, key, dir) => {
             db.AddContent(key, processor(parsed, key, dir));
         });
@@ -34,7 +35,7 @@ public static class Yaml {
     
     public static void ParseFiles<TParsed>(this IFilesystem fs, string extension, IDeserializer deserializer, Action<TParsed, ContentKey, IPurePath> registrator) {
         var fullExtension = $".{extension}.yaml";
-        var pattern = "*" + extension;
+        var pattern = "*" + fullExtension;
         
         foreach (var file in
                  fs.ListFiles(

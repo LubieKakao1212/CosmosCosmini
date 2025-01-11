@@ -1,11 +1,7 @@
 using JustLoaded.Content;
-using JustLoaded.Core;
-using JustLoaded.Core.Entrypoint;
-using JustLoaded.Core.Loading;
 using JustLoaded.Core.Reflect;
-using YamlDotNet.Serialization;
 
-namespace BaseMod;
+namespace Base;
 
 [FromMod(ModId)]
 public class BaseMod {
@@ -22,8 +18,12 @@ public class BaseMod {
             public static readonly ContentKey LoadPlayerDef = MakeKey("player-def");
         }
         
-        public static class Sprites {
-            public static readonly ContentKey Player0 = MakeKey("player_0");
+        // public static class Sprites {
+        //     public static readonly ContentKey Player0 = MakeKey("player_0");
+        // }
+        
+        public static class GameSystems {
+            public static readonly ContentKey PlayerTest = MakeKey("test-player-spawner");
         }
     }
 }

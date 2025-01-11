@@ -14,6 +14,7 @@ public class CoreDatabaseRegisterer : IDatabaseRegisterer {
     public void RegisterDatabases(IDatabaseRegistrationContext context) {
         context.CreateDatabase<Sprite>(Sprites);
         context.CreateDatabase<AnimatedSprite>(SpriteAnimations);
+        context.RegisterDatabase(GameSystems, new ArrayDatabase<IGameSystem>());
     }
     
 }

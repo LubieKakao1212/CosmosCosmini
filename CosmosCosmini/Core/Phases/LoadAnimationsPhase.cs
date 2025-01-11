@@ -3,9 +3,8 @@ using Custom2d_Engine.Rendering.Sprites;
 using JustLoaded.Content;
 using JustLoaded.Core;
 using JustLoaded.Core.Loading;
-using JustLoaded.Filesystem;
 
-namespace CosmosCosmini.Core;
+namespace CosmosCosmini.Core.Phases;
 
 public class LoadAnimationsPhase : ILoadingPhase {
     

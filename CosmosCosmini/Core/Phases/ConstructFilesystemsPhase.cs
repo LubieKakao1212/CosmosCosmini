@@ -5,7 +5,7 @@ using JustLoaded.Core.Loading;
 using JustLoaded.Filesystem;
 using JustLoaded.Logger;
 
-namespace CosmosCosmini.Core;
+namespace CosmosCosmini.Core.Phases;
 
 public class ConstructFilesystemsPhase : ILoadingPhase {
     
