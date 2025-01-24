@@ -1,3 +1,4 @@
 type: "base:hitscan"
 damage: 1
-rps: 1
+rps: 0
+#projectile: "base:p1"

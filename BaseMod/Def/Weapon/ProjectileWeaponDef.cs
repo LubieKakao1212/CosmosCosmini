@@ -10,9 +10,10 @@ public class ProjectileWeaponDef : WeaponDef {
 
     public required DatabaseReference<ProjectileDef> Projectile { get; init; }
 
+    public required float LaunchVelocity { get; set; }
+
     public override WeaponInstance InstantiateWeapon(PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint) {
         Console.WriteLine("Projectile");
         return new ProjectileWeapon(this, ownerObject, attachmentPoint);
     }
-    
 }

@@ -10,7 +10,6 @@ namespace Base.Def.Weapon;
 [CreateDb("projectile")]
 public class ProjectileDef {
     
-    public required DatabaseReference<Sprite> SpriteTmp { get; init; }
     public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
 
 }

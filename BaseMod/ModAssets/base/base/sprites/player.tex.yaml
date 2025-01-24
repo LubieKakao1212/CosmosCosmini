@@ -9,3 +9,7 @@ regions:
     position: { x: 0, y: 0 },
     rect: { x: 10, y: 10 }
   }
+  - {
+      position: { x: 0, y: 0 },
+      rect: { x: 1, y : 3 }
+  }
