@@ -22,7 +22,10 @@ namespace CosmosCosmini;
 public class CosmosGame : Game {
 
     private GraphicsDeviceManager _graphicsManager;
-    
+
+
+    [NotNull] public static ILogger Logger { get; private set; }
+
     [NotNull] public InputManager? Input { get; private set; }
     [NotNull] public World? PhysicsWorld { get; private set; }
     [NotNull] public TickManager? GlobalTickManager { get; private set; }
@@ -35,8 +38,8 @@ public class CosmosGame : Game {
     [NotNull] public RenderPipeline? RenderPipeline { get; private set; }
     [NotNull] public SpriteAtlas<Vector4>? SpriteAtlas { get; private set; }
     [NotNull] public ModLoaderSystem? ModLoaderSystem { get; private set; }
-        
-    [NotNull] private AsyncLogger? Logger { get; set; }
+    
+    [NotNull] private AsyncLogger? LoggerInstance { get; set; }
     
     public CosmosGame() {
         _graphicsManager = new GraphicsDeviceManager(this);
@@ -109,12 +112,13 @@ public class CosmosGame : Game {
     }
 
     private void CreateLogger() {
-        Logger = new AsyncLogger(
+        LoggerInstance = new AsyncLogger(
             TimeSpan.FromTicks(2147483647),
             new ConsoleLogModule(),
             new StreamLogModule(File.Open("log.log", FileMode.Create, FileAccess.Write, FileShare.Read))
             );
-        Logger.Start();
+        LoggerInstance.Start();
+        Logger = LoggerInstance;
     }
     
     private void CreateMls() {
@@ -122,11 +126,11 @@ public class CosmosGame : Game {
         ModLoaderSystem = new ModLoaderSystem.Builder(
                 new FilesystemModProvider(modsFileSystem)
                     .WithMods(CoreMod.Construct(modsFileSystem))
-                    .Verbose(Logger)) {
+                    .Verbose(LoggerInstance)) {
                 ModFilter = IdentityModFilter.Instance
             }.Build()
             .AddAttachment(this)
-            .AddAttachment<ILogger>(Logger);
+            .AddAttachment<ILogger>(LoggerInstance);
     }
 
     private void InitMods() {
@@ -138,14 +142,14 @@ public class CosmosGame : Game {
         }
         catch(Exception e) {
             //TODO
-            ((ILogger)Logger).Info(e.StackTrace);
+            ((ILogger)LoggerInstance).Info(e.StackTrace);
             throw;
         }
     }
 
     protected override void OnExiting(object sender, ExitingEventArgs args) {
-        ((ILogger)Logger).Info("Shutting down, Goodbye, See you again soon : )");
-        Logger.Dispose();
+        ((ILogger)LoggerInstance).Info("Shutting down, Goodbye, See you again soon : )");
+        LoggerInstance.Dispose();
         base.OnExiting(sender, args);
     }
 }

@@ -2,6 +2,10 @@ maxThrust: 32
 maxAngular: 64
 maxBreaking: 40
 sprite: "base:player"
+weapons: [{
+  localPosition: { x: 0, y: 0 },
+  weapon: "base:hitscan"
+}]
 physics:
   mass:
     mass: 1

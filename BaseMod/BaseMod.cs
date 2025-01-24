@@ -1,5 +1,6 @@
 using JustLoaded.Content;
 using JustLoaded.Core.Reflect;
+using JustLoaded.Logger;
 
 namespace Base;
 
@@ -7,23 +8,19 @@ namespace Base;
 public class BaseMod {
 
     public const string ModId = "base";
-
+    
     public static ContentKey MakeKey(string id) {
         return new ContentKey(ModId, id);
     }
     
     public static class Keys {
         
-        public static class Phases {
-            public static readonly ContentKey LoadPlayerDef = MakeKey("player-def");
-        }
-        
-        // public static class Sprites {
-        //     public static readonly ContentKey Player0 = MakeKey("player_0");
-        // }
+        public static class Phases { }
         
         public static class GameSystems {
-            public static readonly ContentKey PlayerTest = MakeKey("test-player-spawner");
+            public static readonly ContentKey PlayerTest = MakeKey("test-ship-spawner");
         }
+
+        public static class Databases { }
     }
 }

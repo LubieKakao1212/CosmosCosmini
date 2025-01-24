@@ -10,7 +10,7 @@ namespace CosmosCosmini;
 public static class CoreMod {
 
     public const string ModId = "core";
-    
+
     internal static Mod Construct(IFilesystem modDirFs) {
         var baseMod = new Mod(new ModMetadata.Builder(ModId).Build())
             .AddAssembly(Assembly.GetExecutingAssembly())
