@@ -1,5 +1,4 @@
 using CosmosCosmini.Core.Def;
-using CosmosCosmini.Def;
 using Custom2d_Engine.Physics;
 using nkast.Aether.Physics2D.Dynamics;
 
@@ -9,17 +8,17 @@ public class DefinedPhysicsObject : PhysicsBodyObject {
 
     public World World => PhysicsBody.World;
     
-    public DefinedPhysicsObject(PhysicsDef def, World world) : base(world.CreateBody(bodyType: def.type)) {
+    public DefinedPhysicsObject(PhysicsDef def, World world) : base(world.CreateBody(bodyType: def.Type)) {
         PhysicsBody.Tag = this;
-        PhysicsBody.LinearDamping = def.linearDrag;
-        PhysicsBody.AngularDamping = def.angularDrag;
-        foreach (var fixtureDef in def.fixtures) {
+        PhysicsBody.LinearDamping = def.LinearDrag;
+        PhysicsBody.AngularDamping = def.AngularDrag;
+        foreach (var fixtureDef in def.Fixtures) {
             PhysicsBody.Add(fixtureDef.Construct());
         }
-        if (def.mass != null) {
-            var mass = def.mass.Value;
-            PhysicsBody.Mass = mass.mass;
-            PhysicsBody.LocalCenter = mass.centerOfMass.Construct();
+        if (def.Mass != null) {
+            var mass = def.Mass.Value;
+            PhysicsBody.Mass = mass.Mass;
+            PhysicsBody.LocalCenter = mass.CenterOfMass.Construct();
         }
     }
     

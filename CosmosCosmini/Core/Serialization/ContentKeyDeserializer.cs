@@ -3,7 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace CosmosCosmini.Def;
+namespace CosmosCosmini.Core.Serialization;
 
 public class ContentKeyDeserializer : INodeDeserializer {
     

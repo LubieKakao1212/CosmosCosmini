@@ -110,6 +110,7 @@ public class CosmosGame : Game {
 
     private void CreateLogger() {
         Logger = new AsyncLogger(
+            TimeSpan.FromTicks(2147483647),
             new ConsoleLogModule(),
             new StreamLogModule(File.Open("log.log", FileMode.Create, FileAccess.Write, FileShare.Read))
             );
@@ -135,8 +136,9 @@ public class CosmosGame : Game {
             ModLoaderSystem.InitMods();
             ModLoaderSystem.Load();
         }
-        catch {
+        catch(Exception e) {
             //TODO
+            ((ILogger)Logger).Info(e.StackTrace);
             throw;
         }
     }

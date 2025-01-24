@@ -3,6 +3,7 @@ using CosmosCosmini.JustLoadedEx;
 using JustLoaded.Core;
 using JustLoaded.Core.Entrypoint;
 using JustLoaded.Core.Loading;
+using JustLoaded.Loading;
 using JustLoaded.Util;
 
 namespace CosmosCosmini.Core;
@@ -15,16 +16,25 @@ public class CoreModInitializer : IModInitializer {
         phases.New(ConstructFs, new ConstructFilesystemsPhase())
             .Register();
         
-        phases.New(ConstructDeserializer, new ConstructDeserializerPhase())
+        phases.New(RegisterDb, new RegisterDbEntrypointLoadingPhase())
             .WithOrder(ConstructFs, Order.After)
             .Register();
         
-        phases.New(RegisterDb, new DatabaseRegistrationLoadingPhase())
+        phases.New(RegisterDbReflect, new RegisterDbReflectLoadingPhase())
+            .WithOrder(ConstructFs, Order.After)
+            .Register();
+        
+        phases.New(ConstructDeserializer, new ConstructDeserializerPhase())
+            .WithOrder(RegisterDb, Order.After)
+            .WithOrder(RegisterDbReflect, Order.After)
+            .Register();
+        
+        phases.New(RegisterContentReflect, new RegisterContentLoadingPhase())
             .WithOrder(ConstructDeserializer, Order.After)
             .Register();
         
-        phases.New(RegisterContentAuto, new RegisterContentLoadingPhase())
-            .WithOrder(RegisterDb, Order.After)
+        phases.New(LoadContentAuto, new ReflectedDefLoadingPhase())
+            .WithOrder(RegisterContentReflect, Order.After)
             .Register();
 
         phases.New(LoadSprites, new LoadSpritesPhase())

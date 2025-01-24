@@ -3,6 +3,7 @@ using JustLoaded.Content;
 using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Filesystem;
+using JustLoaded.Logger;
 using PathLib;
 using YamlDotNet.Serialization;
 
@@ -55,5 +56,35 @@ public static class Yaml {
         var parsed = deserializer.Deserialize<T>(fileReader);
         return parsed;
     }
+
+    #region Non-Generic
+    public static object? DeserializeYamlFile(this IFilesystem fs, ModAssetPath filePath, IDeserializer deserializer, Type type) {
+        using var fileReader = new StreamReader(fs.OpenFile(filePath)!);
+        var parsed = deserializer.Deserialize(fileReader, type);
+        return parsed;
+    }
+    
+    public static void LoadDefsReflected(this ModLoaderSystem modLoader, IFilesystem fs, string extension, Type defType, Action<object, ContentKey> registrator, IDeserializer? deserializer = null, ILogger? logger = null) {
+        deserializer ??= modLoader.GetRequiredAttachment<IDeserializer>();
+        logger ??= modLoader.GetRequiredAttachment<ILogger>();
+        
+        var fullExtension = $".{extension}.yaml";
+        var pattern = "*" + fullExtension;
+        
+        foreach (var file in
+                 fs.ListFiles(
+                     ".".AsPath().FromAnyMod(),
+                     pattern, true)) {
+            logger.Info($"Loading {file}");
+            
+            var parsed = fs.DeserializeYamlFile(file, deserializer, defType)!;
+
+            var idBase = file.path.ToPosix();
+            idBase = idBase.Substring(0, idBase.Length - fullExtension.Length);
+
+            registrator(parsed, new ContentKey(file.modSelector, idBase));
+        }
+    }
+    #endregion
     
 }

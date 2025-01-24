@@ -6,43 +6,43 @@ namespace CosmosCosmini.Core.Def;
 
 public class PhysicsDef {
 
-    public float linearDrag = 0;
-    public float angularDrag = 0;
-    public MassDataDef? mass = null;
-    public BodyType type = BodyType.Dynamic;
-    public FixtureDef[] fixtures = [];
+    public float LinearDrag { get; init; } = 0;
+    public float AngularDrag { get; init; } = 0;
+    public MassDataDef? Mass { get; init; } = null;
+    public BodyType Type { get; init; } = BodyType.Dynamic;
+    public FixtureDef[] Fixtures { get; init; } = [];
     
-    public struct MassDataDef() {
-        public required float mass = 0;
-        public Vector2Def centerOfMass = default;
+    public readonly struct MassDataDef() {
+        public required float Mass { get; init; } = 0;
+        public Vector2Def CenterOfMass { get; init; } = default;
     }
 
-    public struct FixtureDef() {
+    public readonly struct FixtureDef() {
         //Shape
-        public required Type type;
-        public Vector2Def center = default;
-        public float density = 1;
-        public required float radius;
+        public required ShapeType Type { get; init; }
+        public Vector2Def Center { get; init; } = default;
+        public float Density { get; init; } = 1;
+        public required float Radius { get; init; }
         //Rectangle only
-        public float horizontalRatio = 1;
-        public float angle = 1;
+        public float HorizontalRatio { get; init; } = 1;
+        public float Angle { get; init; } = 1;
         
         //Fixture
-        public float friction = 0;
-        public float restitution = 0;
+        public float Friction { get; init; } = 0;
+        public float Restitution { get; init; } = 0;
         
         public Fixture Construct() {
             Shape shape;
-            switch (type) {
-                case Type.Circle: {
-                    shape = new CircleShape(radius, density) {
-                        Position = center.Construct()
+            switch (Type) {
+                case ShapeType.Circle: {
+                    shape = new CircleShape(Radius, Density) {
+                        Position = Center.Construct()
                     };
                     break;
                 }
-                case Type.Rectangle: {
-                    var p = PolygonTools.CreateRectangle(radius * horizontalRatio, radius, center.Construct(), angle);
-                    shape = new PolygonShape(p, density);
+                case ShapeType.Rectangle: {
+                    var p = PolygonTools.CreateRectangle(Radius * HorizontalRatio, Radius, Center.Construct(), Angle);
+                    shape = new PolygonShape(p, Density);
                     break;
                 }
                 default: {
@@ -51,13 +51,13 @@ public class PhysicsDef {
                 }
             }
             var fixture = new Fixture(shape) {
-                Friction = friction,
-                Restitution = restitution
+                Friction = Friction,
+                Restitution = Restitution
             };
             return fixture;
         }
         
-        public enum Type {
+        public enum ShapeType {
             Circle,
             Rectangle
         }

@@ -9,7 +9,7 @@ using static CoreMod.Keys.Phase;
 public static class LoadingPhaseExtensions {
 
     public static OrderedResolver<ILoadingPhase>.Registration AssetLoadPhase(this OrderedResolver<ILoadingPhase>.Registration reg) {
-        return reg.WithOrder(RegisterDb, Order.After)
+        return reg.WithOrder(ConstructDeserializer, Order.After)
             .WithOrder(AssetLoadEnd, Order.Before);
     }
     
