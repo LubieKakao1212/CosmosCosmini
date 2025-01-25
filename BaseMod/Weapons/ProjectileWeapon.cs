@@ -1,6 +1,6 @@
 using Base.Def.Weapon;
+using Base.Weapons.Projectile;
 using CosmosCosmini.Core.Def;
-using CosmosCosmini.Scene;
 using Custom2d_Engine.Physics;
 using Custom2d_Engine.Ticking;
 
@@ -28,21 +28,24 @@ public class ProjectileWeapon(ProjectileWeaponDef def, PhysicsBodyObject ownerOb
         
         var projectilePos = attachmentPoint.Def.LocalPosition.Construct();
         projectilePos = owner.Transform.LocalToWorld.TransformPoint(projectilePos);
-        
-        var projectile = new DefinedPhysicsObject(def, owner.PhysicsBody.World) {
+
+        var projectile = new ProjectileObject(Def.Projectile.Value!, owner.PhysicsBody.World) {
             Transform = {
                 GlobalRotation = projectileRotation,
                 GlobalPosition = projectilePos
             }
         };
+        
+        // var projectile = new DefinedPhysicsObject(def, owner.PhysicsBody.World) {
+        //     Transform = {
+        //         GlobalRotation = projectileRotation,
+        //         GlobalPosition = projectilePos
+        //     }
+        // };
         // projectile.CreateDrawableChild(Def.Projectile.Value!.SpriteTmp.Value!, localScale: new Vector2(0.5f, 0.05f));
         // projectile.PhysicsBody.LinearVelocity = projectile.Transform.Up * 10f;
 
         var projectileDef = Def.Projectile.Value!;
-        
-        new AnimatedDrawableObject(projectileDef.Sprite.Value!) {
-            Parent = projectile
-        };
 
         var v = projectile.Transform.Up;
         projectile.PhysicsBody.LinearVelocity = owner.PhysicsBody.LinearVelocity + v * Def.LaunchVelocity;

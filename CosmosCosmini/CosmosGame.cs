@@ -89,7 +89,9 @@ public class CosmosGame : Game {
         }
         
         Input.UpdateState();
+        GameHierarchy.BeginUpdate();
         PhysicsWorld.Step(gameTime.ElapsedGameTime);
+        GameHierarchy.EndUpdate();
         
         GameHierarchy.Update(gameTime);
         Ui.Update(gameTime);

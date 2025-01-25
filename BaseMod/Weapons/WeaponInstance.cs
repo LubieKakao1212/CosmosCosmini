@@ -11,6 +11,17 @@ public abstract class WeaponInstance(PhysicsBodyObject ownerObject, AttachmentPo
 
     protected readonly PhysicsBodyObject _ownerObject = ownerObject;
     protected TickMachineBase? _activeTicker;
+    protected bool _active;
+
+    public void SetShooting(bool active) {
+        if (!_active && active) {
+            StartShooting();
+        }
+        else if (_active && !active) {
+            StopShooting();
+        }
+        _active = active;
+    }
     
     public virtual void StartShooting() {
         if (cooldown > TimeSpan.Zero) {

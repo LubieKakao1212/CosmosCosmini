@@ -1,6 +1,4 @@
-using System.Transactions;
 using CosmosCosmini.Core.Def;
-using Custom2d_Engine.Math;
 using Custom2d_Engine.Physics;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
@@ -26,6 +24,11 @@ public class DefinedPhysicsObject : PhysicsBodyObject {
             PhysicsBody.Mass = mass.Mass;
             PhysicsBody.LocalCenter = mass.CenterOfMass.Construct();
         }
+
+        if (def.Inertia != null) {
+            PhysicsBody.Inertia = def.Inertia.Value;
+        }
+        
     }
 
     protected override void CustomUpdate(GameTime time) {

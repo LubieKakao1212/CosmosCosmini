@@ -1,8 +1,8 @@
 type: "base:projectile"
 damage: 1
-rps: 4
+rps: 120
 projectile: "base:p1"
-launchVelocity: 30
+launchVelocity: 5
 scatter: {
    type: "base:gaussian",
 #   angle: 45

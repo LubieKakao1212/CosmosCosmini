@@ -1,3 +1,4 @@
+using Base.Constants;
 using Base.Def;
 using Base.Weapons;
 using CosmosCosmini.Scene;
@@ -23,6 +24,11 @@ public class PlayerObject : DefinedPhysicsObject {
         _weaponInput = weaponInput;
         _def = def;
         _weapons = def.Weapons.Select(def => def.InstantiateWeapon(this)).ToArray();
+
+        foreach (var fixture in PhysicsBody.FixtureList) {
+            fixture.CollisionCategories = Collisions.Cats.Player;
+            fixture.CollidesWith = Collisions.CollidesWith.Player;
+        }
         
         var display = new AnimatedDrawableObject(def.Sprite.Value!) {
             Parent = this

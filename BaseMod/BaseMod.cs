@@ -18,7 +18,7 @@ public class BaseMod {
         public static class Phases { }
         
         public static class GameSystems {
-            public static readonly ContentKey PlayerTest = MakeKey("test-ship-spawner");
+            public static readonly ContentKey ShipController = MakeKey("ship-controller");
         }
 
         public static class Databases { }

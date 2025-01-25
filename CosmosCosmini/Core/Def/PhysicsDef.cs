@@ -9,6 +9,7 @@ public class PhysicsDef {
     public float LinearDrag { get; init; } = 0;
     public float AngularDrag { get; init; } = 0;
     public MassDataDef? Mass { get; init; } = null;
+    public float? Inertia { get; init; } = null;
     public BodyType Type { get; init; } = BodyType.Dynamic;
     public FixtureDef[] Fixtures { get; init; } = [];
     
@@ -16,7 +17,7 @@ public class PhysicsDef {
         public required float Mass { get; init; } = 0;
         public Vector2Def CenterOfMass { get; init; } = default;
     }
-
+    
     public readonly struct FixtureDef() {
         //Shape
         public required ShapeType Type { get; init; }

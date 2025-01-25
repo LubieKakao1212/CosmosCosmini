@@ -16,8 +16,10 @@ public class ShipDef {
     public required float MaxThrust { get; init; } = 0;
     public required float MaxAngular { get; init; } = 0;
     public required float MaxBreaking { get; init; } = 0;
-    
-    public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
 
+    public required AiControllerDef Ai { get; init; }
+
+    public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
+    
     public AttachmentPointDef[] Weapons { get; init; } = [];
 }
