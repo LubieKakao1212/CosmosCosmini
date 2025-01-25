@@ -11,6 +11,7 @@ public class CoreDeserializerSetupCallback : IDeserializerSetupCallback {
     public void SetupDeserializer(DeserializerBuilder builder, ModLoaderSystem modLoader) {
         builder
             .AddDeserializer(new ContentKeyDeserializer())
-            .AddDeserializer(new DatabaseReferenceDeserializer(modLoader.MasterDb));
+            .AddDeserializer(new DatabaseReferenceDeserializer(modLoader.MasterDb))
+            .AddDeserializer(new TimeSpanDeserializer());
     }
 }

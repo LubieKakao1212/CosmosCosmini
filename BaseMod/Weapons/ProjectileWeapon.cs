@@ -2,12 +2,13 @@ using Base.Def.Weapon;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Scene;
 using Custom2d_Engine.Physics;
+using Custom2d_Engine.Ticking;
 
 namespace Base.Weapons;
 
 public class ProjectileWeapon(ProjectileWeaponDef def, PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint) : WeaponInstance<ProjectileWeaponDef>(def, ownerObject, attachmentPoint) {
     
-    protected override void DoShoot() {
+    protected override void DoShoot2(float globalDirection) {
         var def = new PhysicsDef() {
             Mass = new PhysicsDef.MassDataDef() {
                 Mass = 0.1f,
@@ -23,27 +24,35 @@ public class ProjectileWeapon(ProjectileWeaponDef def, PhysicsBodyObject ownerOb
         };
 
         var owner = _ownerObject;
-        var ownerRotation = owner.Transform.GlobalRotation;
+        var projectileRotation = globalDirection;
         
-        var projectileRotation = attachmentPoint.Def.Direction + ownerRotation;
-        
-        var localPos = attachmentPoint.Def.LocalPosition.Construct();
-        localPos.Rotate(ownerRotation);
+        var projectilePos = attachmentPoint.Def.LocalPosition.Construct();
+        projectilePos = owner.Transform.LocalToWorld.TransformPoint(projectilePos);
         
         var projectile = new DefinedPhysicsObject(def, owner.PhysicsBody.World) {
             Transform = {
                 GlobalRotation = projectileRotation,
-                GlobalPosition = owner.Transform.GlobalPosition + localPos
+                GlobalPosition = projectilePos
             }
         };
         // projectile.CreateDrawableChild(Def.Projectile.Value!.SpriteTmp.Value!, localScale: new Vector2(0.5f, 0.05f));
         // projectile.PhysicsBody.LinearVelocity = projectile.Transform.Up * 10f;
-        new AnimatedDrawableObject(Def.Projectile.Value!.Sprite.Value!) {
+
+        var projectileDef = Def.Projectile.Value!;
+        
+        new AnimatedDrawableObject(projectileDef.Sprite.Value!) {
             Parent = projectile
         };
 
         var v = projectile.Transform.Up;
         projectile.PhysicsBody.LinearVelocity = owner.PhysicsBody.LinearVelocity + v * Def.LaunchVelocity;
+
+        IEnumerator<TimeSpan> Sequence() {
+            yield return projectileDef.MaxLifespan;
+            projectile.CurrentHierarchy!.RemoveObject(projectile);
+        }
+        
+        projectile.AddActionSequence(Sequence());
         
         owner.CurrentHierarchy!.AddObject(projectile);
     }

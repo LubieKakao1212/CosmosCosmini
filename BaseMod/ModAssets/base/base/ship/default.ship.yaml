@@ -2,15 +2,18 @@ maxThrust: 32
 maxAngular: 64
 maxBreaking: 40
 sprite: "base:player"
-weapons: [{
-  localPosition: { x: -2, y: 1 },
-  direction: -0.5,
+weapons: [
+{
+  localPosition: { x: 0, y: 2 },
+  direction: 0,
   weapon: "base:proj"
-},{
-  localPosition: { x: 2, y: 1 },
-  direction: 0.5,
-  weapon: "base:proj"
-}]
+}
+#  ,{
+#  localPosition: { x: 2s, y: 1 },
+#  direction: 0.5,
+#  weapon: "base:proj"
+#}
+]
 physics:
   mass:
     mass: 1

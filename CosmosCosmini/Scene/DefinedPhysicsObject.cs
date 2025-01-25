@@ -35,4 +35,13 @@ public class DefinedPhysicsObject : PhysicsBodyObject {
         }
         base.CustomUpdate(time);
     }
+    
+    protected override void RemovedFromScene() {
+        base.RemovedFromScene();
+        PhysicsBody.Enabled = false;
+    }
+
+    ~DefinedPhysicsObject() {
+        PhysicsBody.World.Remove(PhysicsBody);
+    }
 }

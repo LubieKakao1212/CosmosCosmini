@@ -1,6 +1,5 @@
 using CosmosCosmini.Core.Serialization;
 using CosmosCosmini.Graphics;
-using Custom2d_Engine.Rendering.Sprites;
 using JustLoaded.Content;
 using JustLoaded.Loading;
 
@@ -12,4 +11,5 @@ public class ProjectileDef {
     
     public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
 
+    public TimeSpan MaxLifespan { get; init; } = TimeSpan.FromSeconds(30);
 }

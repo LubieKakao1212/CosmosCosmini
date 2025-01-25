@@ -6,7 +6,7 @@ namespace Base.Weapons;
 
 public class HitscanWeapon(HitscanWeaponDef def, PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint) : WeaponInstance<HitscanWeaponDef>(def, ownerObject, attachmentPoint) {
     
-    protected override void DoShoot() {
+    protected override void DoShoot2(float globalDirection) {
         CosmosGame.Logger.Info("Pew Pew!");
     }
     

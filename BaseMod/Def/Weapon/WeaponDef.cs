@@ -1,3 +1,4 @@
+using Base.Def.Weapon.Scatter;
 using Base.Weapons;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Core.Serialization;
@@ -18,7 +19,9 @@ public abstract class WeaponDef : PolymorphicDef {
     
     //In distance units
     public double Range { get; init; } = -1;
-    
+
+    public WeaponScatterDef Scatter { get; init; } = new IdentityScatterDef();
+
     public abstract WeaponInstance InstantiateWeapon(PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint);
 
 }
