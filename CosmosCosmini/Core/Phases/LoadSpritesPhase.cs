@@ -18,7 +18,6 @@ public class LoadSpritesPhase : ILoadingPhase {
         var game = modLoader.GetRequiredAttachment<CosmosGame>();
         
         var graphics = game.GraphicsDevice;
-        //TODO Dispose temporary textures
         var atlas = game.SpriteAtlas;
 
         var rawTextures = new List<Texture2D>();

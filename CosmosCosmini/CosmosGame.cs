@@ -1,13 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using CosmosCosmini.Graphics;
 using CosmosCosmini.JustLoadedEx;
-using CosmosCosmini.Scene;
 using Custom2d_Engine.Input;
 using Custom2d_Engine.Rendering;
 using Custom2d_Engine.Rendering.Sprites.Atlas;
 using Custom2d_Engine.Scenes;
 using Custom2d_Engine.Ticking;
-using JustLoaded.Content;
 using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Core.Discovery;
@@ -23,7 +21,8 @@ public class CosmosGame : Game {
 
     private GraphicsDeviceManager _graphicsManager;
 
-
+    public const int SpriteAtlasSize = 2048;
+    
     [NotNull] public static ILogger Logger { get; private set; }
 
     [NotNull] public InputManager? Input { get; private set; }
@@ -56,12 +55,12 @@ public class CosmosGame : Game {
         CreateLogger();
         
         RenderPipeline = new RenderPipeline();
-        SpriteAtlas = new SpriteAtlas<Vector4>(GraphicsDevice);
+        SpriteAtlas = new SpriteAtlas<Vector4>(GraphicsDevice, SpriteAtlasSize);
         PhysicsWorld = new World(new Vector2(0, 0));
         GlobalTickManager = new TickManager();
         
         GameHierarchy = new Hierarchy(GlobalTickManager);
-        GameCamera = new Camera { ViewSize = 16f, AspectRatio = 16f/9f };
+        GameCamera = new Camera { ViewSize = 4f, AspectRatio = 16f/9f };
         GameHierarchy.AddObject(GameCamera);
         
         Ui = new Hierarchy(GlobalTickManager);
