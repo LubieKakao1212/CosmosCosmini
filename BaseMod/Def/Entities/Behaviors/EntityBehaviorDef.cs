@@ -1,5 +1,5 @@
 using Base.Entities;
-using Base.Entities.Behavior;
+using Base.Entities.Behaviors;
 using CosmosCosmini.Core.Def;
 
 namespace Base.Def.Entities.Behaviors;

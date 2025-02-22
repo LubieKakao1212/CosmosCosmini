@@ -1,5 +1,5 @@
 using Base.Def.Entities;
-using Base.Entities.Behavior;
+using Base.Entities.Behaviors;
 using CosmosCosmini.Scene;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;

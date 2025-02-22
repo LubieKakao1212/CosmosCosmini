@@ -1,7 +1,7 @@
 using Base.Def.Entities.Behaviors;
 using Microsoft.Xna.Framework;
 
-namespace Base.Entities.Behavior;
+namespace Base.Entities.Behaviors;
 
 public abstract class EntityBehavior(Entity entity) {
     protected readonly Entity _entity = entity;
