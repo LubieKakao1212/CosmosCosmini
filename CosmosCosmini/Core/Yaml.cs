@@ -1,10 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using JustLoaded.Content;
 using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Filesystem;
 using JustLoaded.Logger;
 using PathLib;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace CosmosCosmini.Core;
@@ -75,9 +75,17 @@ public static class Yaml {
                  fs.ListFiles(
                      ".".AsPath().FromAnyMod(),
                      pattern, true)) {
-            logger.Info($"Loading {file}");
             
-            var parsed = fs.DeserializeYamlFile(file, deserializer, defType)!;
+            logger.Info($"Loading {file}");
+            object parsed;
+            try {
+                parsed = fs.DeserializeYamlFile(file, deserializer, defType)!;
+            }
+            catch (YamlException e) {
+                logger.Error("Error during loading");
+                logger.Error(e.ToString());
+                continue;
+            }
 
             var idBase = file.path.ToPosix();
             idBase = idBase.Substring(0, idBase.Length - fullExtension.Length);

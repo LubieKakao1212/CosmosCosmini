@@ -1,13 +1,12 @@
 using CosmosCosmini;
 using Custom2d_Engine.Rendering.Sprites;
-using Custom2d_Engine.Rendering.Sprites.Atlas;
 using Microsoft.Xna.Framework;
 
 namespace Base.Constants;
 
 public static class Sprites {
     
-    public const float PPU = 16f;
+    public const float PPU = 64f;
     
     public static Vector2 GetWorldSize(this Sprite sprite) {
         var rect = sprite.TextureRect;

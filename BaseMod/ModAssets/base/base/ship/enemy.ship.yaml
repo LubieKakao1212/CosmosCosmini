@@ -3,16 +3,16 @@ maxAngular: 64
 maxBreaking: 40
 sprite: "base:player"
 weapons: [
-{
-  localPosition: { x: 1, y: 0 },
-  direction: 30,
-  weapon: "base:proj"
-},
-{
-  localPosition: { x: -1, y: 0 },
-  direction: -30,
-  weapon: "base:proj"
-}
+  { 
+    localPosition: { x: 1, y: 0 },
+    direction: 30,
+    weapon: "base:proj"
+  },
+  {
+    localPosition: { x: -1, y: 0 },
+    direction: -30,
+    weapon: "base:proj"
+  }
 ]
 physics:
   mass:
@@ -22,8 +22,9 @@ physics:
   fixtures: [
     {
       type: Rectangle,
-      radius: 0.125
+      radius: 0.5
     }
   ]
 ai:
   type: "base:target-follow"
+  

@@ -1,0 +1,3 @@
+source: player.png
+regions:
+  - rect: { x : 67, y : 83 }

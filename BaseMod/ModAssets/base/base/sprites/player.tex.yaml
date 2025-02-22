@@ -1,6 +1,6 @@
-source: player.png
+source: player-test.png
 regions: 
-  - rect: { x : 5, y : 5 }
+  - rect: { x : 16, y : 22 }
   - {
     position: { x: 5, y : 0 },
     rect: { x: 5, y: 5 }

@@ -13,6 +13,8 @@ using JustLoaded.Filesystem;
 using JustLoaded.Logger;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using nkast.Aether.Physics2D.Diagnostics;
 using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini;
@@ -39,7 +41,10 @@ public class CosmosGame : Game {
     [NotNull] public ModLoaderSystem? ModLoaderSystem { get; private set; }
     
     [NotNull] private AsyncLogger? LoggerInstance { get; set; }
-    
+
+    [NotNull] private DebugView? PhysicsDebug { get; set; }
+    private bool IsPhysicsDebugEnabled { get; set; }
+
     public CosmosGame() {
         _graphicsManager = new GraphicsDeviceManager(this);
         _graphicsManager.GraphicsProfile = GraphicsProfile.HiDef;
@@ -79,6 +84,12 @@ public class CosmosGame : Game {
         foreach (var system in ((IContentDatabase<IGameSystem>)ModLoaderSystem.MasterDb.GetDatabase<IGameSystem>()).ContentValues) {
             system.InitHierarchy(GameHierarchy);
         }
+        
+        //TODO if out
+        PhysicsDebug = new DebugView(PhysicsWorld);
+        PhysicsDebug.LoadContent(GraphicsDevice, Content);
+
+        InitDebugControls();
     }
 
     protected override void Update(GameTime gameTime) {
@@ -107,9 +118,21 @@ public class CosmosGame : Game {
         }
         
         GraphicsDevice.Clear(Color.Aqua);
-        
         RenderPipeline.RenderScene(GameHierarchy, GameCamera);
+        
+        
         RenderPipeline.RenderScene(Ui, UiCamera);
+        
+        if (IsPhysicsDebugEnabled) {
+            var camMat = GameCamera.ProjectionMatrix;
+            //TODO fix ToMatrixXna()
+            var projection = new Matrix(
+                new Vector4(camMat[0, 0], camMat[0, 1], 0.0f, 0.0f),
+                new Vector4(camMat[1, 0], camMat[1, 1], 0.0f, 0.0f),
+                new Vector4(0.0f,         0.0f,         0.0f, 0.0f),
+                new Vector4(camMat[2, 0], camMat[2, 1], 0.0f, 1f ));
+            PhysicsDebug.RenderDebugData(Matrix.Identity, projection);
+        }
     }
 
     private void CreateLogger() {
@@ -146,6 +169,10 @@ public class CosmosGame : Game {
             ((ILogger)LoggerInstance).Info(e.StackTrace);
             throw;
         }
+    }
+
+    private void InitDebugControls() { 
+        Input.GetKey(Keys.F3).Started += _ => IsPhysicsDebugEnabled = !IsPhysicsDebugEnabled;
     }
 
     protected override void OnExiting(object sender, ExitingEventArgs args) {

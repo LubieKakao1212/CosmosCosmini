@@ -74,7 +74,7 @@ public class PlayerObject : DefinedPhysicsObject {
         _weaponInput.Canceled += DeactivateWeapons;
     }
 
-    protected override void RemovedFromScene() {
+    public override void RemovedFromScene() {
         _weaponInput.Started -= ActivateWeapons;
         _weaponInput.Canceled -= DeactivateWeapons;
     }

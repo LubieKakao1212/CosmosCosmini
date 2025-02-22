@@ -5,17 +5,17 @@ sprite: "base:player"
 weapons: [
 {
   localPosition: { x: 1, y: 0 },
-  direction: -30,
+  direction: 0,
   weapon: "base:proj"
 },
 {
   localPosition: { x: -1, y: 0 },
-  direction: -30,
+  direction: 180,
   weapon: "base:proj"
 }
 ]
 physics:
-  inertia: 1
+  inertia: 5
   mass:
     mass: 1
   angularDrag: 5
@@ -23,7 +23,7 @@ physics:
   fixtures: [
     {
       type: Rectangle,
-      radius: 0.125
+      radius: 0.5
     }
   ]
 ai:

@@ -4,7 +4,6 @@ rps: 120
 projectile: "base:p1"
 launchVelocity: 5
 scatter: {
-   type: "base:gaussian",
-#   angle: 45
-   stdDev: 5
+   type: "base:uniform",
+   angle: 45
 }

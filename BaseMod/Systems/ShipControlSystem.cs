@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using Base.Constants;
 using Base.Def;
 using Base.Ship;
@@ -11,7 +10,6 @@ using Custom2d_Engine.Ticking;
 using JustLoaded.Content;
 using JustLoaded.Core;
 using Microsoft.Xna.Framework;
-using nkast.Aether.Physics2D.Dynamics;
 
 namespace Base.Systems;
 
@@ -39,7 +37,9 @@ public class ShipControlSystem : IGameSystem {
     public void InitHierarchy(Hierarchy gameHierarchy) {
         Ships = new ShipCollection(gameHierarchy);
         
-        CreateShip(gameHierarchy, new ContentKey(BaseMod.ModId, "player"), FactionAlignment.Friendly, Vector2.Zero);
+        var player = CreateShip(gameHierarchy, new ContentKey(BaseMod.ModId, "player"), FactionAlignment.Friendly, Vector2.Zero);
+        var camera = gameHierarchy.AllInstancesOf<Camera>().First();
+        camera.Parent = player;
     }
 
     public void Update(GameTime gameTime, Hierarchy gameHierarchy) {
@@ -64,7 +64,7 @@ public class ShipControlSystem : IGameSystem {
             new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * 5f);
     }
     
-    private void CreateShip(Hierarchy gameHierarchy, ContentKey defKey, FactionAlignment alignment, Vector2 position) {
+    private ShipObject CreateShip(Hierarchy gameHierarchy, ContentKey defKey, FactionAlignment alignment, Vector2 position) {
         var key = BoundContentKey<ShipDef>.Make(defKey);
         var def = key.FetchContent(_modLoader.MasterDb)!;
 
@@ -96,5 +96,7 @@ public class ShipControlSystem : IGameSystem {
         gameHierarchy.AddObject(ship);
         Ships.Add(alignment, ship);
         _controllers.Add(ship, def.Ai.Instantiate(alignment, _modLoader));
+        
+        return ship;
     }
 }

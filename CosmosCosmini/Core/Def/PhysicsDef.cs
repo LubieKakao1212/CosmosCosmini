@@ -26,7 +26,7 @@ public class PhysicsDef {
         public required float Radius { get; init; }
         //Rectangle only
         public float HorizontalRatio { get; init; } = 1;
-        public float Angle { get; init; } = 1;
+        public float Angle { get; init; } = 0;
         
         //Fixture
         public float Friction { get; init; } = 0;
