@@ -58,4 +58,23 @@ public class Entity : DefinedPhysicsObject {
         }
     }
 
+    public IEnumerable<T> GetBehaviors<T>() where T : class {
+        return Behaviors.OfType<T>();
+    }
+
+    public T? GetAnyBehavior<T>() where T : class {
+        return GetBehaviors<T>().FirstOrDefault();
+    }
+
+    public T? GetOnlyBehavior<T>() where T : class {
+        T? result = null;
+        foreach (var behavior in GetBehaviors<T>()) {
+            if (result != null) {
+                throw new ApplicationException($"More than one argument of type {typeof(T)}");
+            }
+            result = behavior;
+        }
+        return result;
+    }
+    
 }
