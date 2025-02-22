@@ -19,6 +19,8 @@ public class PhysicsDef {
     }
     
     public readonly struct FixtureDef() {
+        public string Tag { get; init; } = "";
+
         //Shape
         public required ShapeType Type { get; init; }
         public Vector2Def Center { get; init; } = default;
@@ -53,7 +55,8 @@ public class PhysicsDef {
             }
             var fixture = new Fixture(shape) {
                 Friction = Friction,
-                Restitution = Restitution
+                Restitution = Restitution,
+                Tag = Tag
             };
             return fixture;
         }
