@@ -10,7 +10,7 @@ public class PhysicsDef {
     public float AngularDrag { get; init; } = 0;
     public MassDataDef? Mass { get; init; } = null;
     public float? Inertia { get; init; } = null;
-    public BodyType Type { get; init; } = BodyType.Dynamic;
+    public BodyType Type { get; init; } = BodyType.Static;
     public FixtureDef[] Fixtures { get; init; } = [];
     
     public readonly struct MassDataDef() {
