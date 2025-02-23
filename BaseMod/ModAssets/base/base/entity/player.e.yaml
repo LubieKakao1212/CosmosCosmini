@@ -1,5 +1,6 @@
 sprite: "base:player"
 physics:
+  type: dynamic
   mass:
     mass: 1
   inertia: 1
@@ -13,5 +14,8 @@ physics:
   ]
 behaviors:
   - type: "base:hp-behaviour"
-    maxHp: 100
+    maxHp: 1000
   - type: "base:death-behaviour"
+  - type: "base:player-movement-behaviour"
+    enginePower: 5
+    rotationTorque: 5

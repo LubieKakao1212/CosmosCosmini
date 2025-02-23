@@ -15,7 +15,7 @@ public class Entity : DefinedPhysicsObject {
 
     private bool WasConstructed { get; set; }
 
-    protected EntityManager Manager { get; }
+    public EntityManager Manager { get; }
 
     public Entity(EntityDef def, World world, EntityManager manager) : base(def.Physics, world) {
         EntityDef = def;
