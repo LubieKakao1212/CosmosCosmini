@@ -1,5 +1,5 @@
 sprite: "base:player"
-alignment: Friendly
+alignment: Hostile
 physics:
   type: dynamic
   mass:
@@ -17,6 +17,4 @@ behaviors:
   - type: "base:hp-behaviour"
     maxHp: 1000
   - type: "base:death-behaviour"
-  - type: "base:player-movement-behaviour"
-    enginePower: 20
-    rotationTorque: 10
+  - type: "base:simple-ai"

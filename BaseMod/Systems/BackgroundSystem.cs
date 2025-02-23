@@ -42,6 +42,21 @@ public class BackgroundSystem(ModLoaderSystem modLoader) : IGameSystem {
             };
         }
         
+        for (int i = 0; i < 1024 * 4; i++) {
+            var x = random.NextSingle() * 2f - 1f;
+            var y = random.NextSingle() * 2f - 1f;
+
+            x *= xRadius;
+            y *= yRadius;
+
+            _ = new AnimatedDrawableObject(sprite, tint: new Color(255, 255, 255, 110), phase: random.Next(0, frameCount)) {
+                Parent = stars,
+                Transform = {
+                    GlobalPosition = new Vector2(x, y)
+                }
+            };
+        }
+        
         gameHierarchy.AddObject(stars);
     }
 

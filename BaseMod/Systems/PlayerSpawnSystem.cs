@@ -30,6 +30,16 @@ public class PlayerSpawnSystem(ModLoaderSystem modLoader) : IGameSystem {
         else {
             modLoader.GetRequiredAttachment<ILogger>().Error("Could not find player entity def");
         }
+        
+        var enemy = manager.CreateEntity(new ContentKey("base:enemy"), Vector2.One * 3f);
+
+        if (enemy != null) {
+            gameHierarchy.AddObject(enemy);
+        }
+        else {
+            modLoader.GetRequiredAttachment<ILogger>().Error("Could not find enemy entity def");
+        }
+        
     }
 
     public void Update(GameTime gameTime, Hierarchy gameHierarchy) { }

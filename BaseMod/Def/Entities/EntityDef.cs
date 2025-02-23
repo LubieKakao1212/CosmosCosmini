@@ -12,9 +12,10 @@ namespace Base.Def.Entities;
 [Def("e", SearchDir = "entity")]
 [CreateDb("entity")]
 public class EntityDef : PolymorphicDef {
-    
     public EntityBehaviorDef[] Behaviors { get; init; } = [];
     
+    public required FactionAlignment Alignment { get; init; }
+
     //TODO use shapes from tiled
     public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
     
