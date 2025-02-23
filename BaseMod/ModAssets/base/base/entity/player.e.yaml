@@ -11,6 +11,7 @@ physics:
       radius: 0.5
     }
   ]
-behaviors: [
-  
-]
+behaviors:
+  - type: "base:hp-behaviour"
+    maxHp: 100
+  - type: "base:death-behaviour"
