@@ -3,9 +3,9 @@ physics:
   type: dynamic
   mass:
     mass: 1
-  inertia: 1
+  inertia: 0.5
   angularDrag: 5
-  linearDrag: 2
+  linearDrag: 3
   fixtures: [
     {
       type: Rectangle,
@@ -17,5 +17,5 @@ behaviors:
     maxHp: 1000
   - type: "base:death-behaviour"
   - type: "base:player-movement-behaviour"
-    enginePower: 5
-    rotationTorque: 5
+    enginePower: 20
+    rotationTorque: 10

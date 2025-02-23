@@ -1,6 +1,7 @@
 using Base.Def.Entities;
 using Base.Entities;
 using CosmosCosmini;
+using CosmosCosmini.Scene;
 using Custom2d_Engine.Scenes;
 using JustLoaded.Content;
 using JustLoaded.Core;
@@ -20,6 +21,10 @@ public class PlayerSpawnSystem(ModLoaderSystem modLoader) : IGameSystem {
         var player = manager.CreateEntity(new ContentKey("base:player"), Vector2.Zero);
 
         if (player != null) {
+            var game = modLoader.GetRequiredAttachment<CosmosGame>();
+            _ = new FollowMeObject(game.GameCamera) {
+                Parent = player
+            };
             gameHierarchy.AddObject(player);
         }
         else {
