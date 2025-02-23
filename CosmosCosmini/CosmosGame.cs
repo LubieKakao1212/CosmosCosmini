@@ -21,7 +21,7 @@ namespace CosmosCosmini;
 
 public class CosmosGame : Game {
 
-    private static readonly Color BgColor = new Color(0x05, 0x0c, 0x1a, 0xff);
+    private static readonly Color BgColor = new Color(0x05, 0x11, 0x1f, 0xff);
     
     private GraphicsDeviceManager _graphicsManager;
 
