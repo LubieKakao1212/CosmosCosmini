@@ -21,7 +21,7 @@ public class EntityDef : PolymorphicDef {
     //TODO use shapes from tiled
     public PhysicsDef Physics { get; init; } = new PhysicsDef();
 
-    public virtual Entity Instantiate(World world) {
-        return new Entity(this, world);
+    public virtual Entity Instantiate(World world, EntityManager manager) {
+        return new Entity(this, world, manager);
     }
 }
