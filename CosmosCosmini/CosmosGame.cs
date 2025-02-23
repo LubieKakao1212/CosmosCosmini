@@ -21,6 +21,8 @@ namespace CosmosCosmini;
 
 public class CosmosGame : Game {
 
+    private static readonly Color BgColor = new Color(0x05, 0x0c, 0x1a, 0xff);
+    
     private GraphicsDeviceManager _graphicsManager;
 
     public const int SpriteAtlasSize = 2048;
@@ -117,7 +119,7 @@ public class CosmosGame : Game {
             value.Update(gameTime.ElapsedGameTime);
         }
         
-        GraphicsDevice.Clear(Color.Aqua);
+        GraphicsDevice.Clear(BgColor);
         RenderPipeline.RenderScene(GameHierarchy, GameCamera);
         
         

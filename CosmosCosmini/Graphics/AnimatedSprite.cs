@@ -12,6 +12,8 @@ public class AnimatedSprite {
     
     private readonly DatabaseReference<Sprite>[] _frames;
 
+    public int FrameCount { get; }
+
     public TimeSpan FrameDuration {
         get => _animator.Interval;
         set => _animator.Interval = value;
@@ -27,6 +29,8 @@ public class AnimatedSprite {
             _currentFrame = (_currentFrame + 1 % frames.Length);
             FrameChanged(this);
         }, frameDuration);
+        
+        FrameCount = frames.Length;
     }
 
     // public AnimatedSprite(IEnumerable<BoundContentKey<Sprite>> frameIds, TimeSpan frameDuration) : this(

@@ -1,0 +1,23 @@
+frameDuration: 0.15
+sequence:
+  frames: [
+    "base:bg-star_0",
+    "base:bg-star_0",
+    "base:bg-star_0",
+    
+    "base:bg-star_2",
+    "base:bg-star_2",
+    "base:bg-star_2",
+    
+    "base:bg-star_4",
+    "base:bg-star_4",
+    "base:bg-star_4",
+    
+    "base:bg-star_3",
+    "base:bg-star_3",
+    "base:bg-star_3",
+    
+    "base:bg-star_1",
+    "base:bg-star_1",
+    "base:bg-star_1",
+  ]

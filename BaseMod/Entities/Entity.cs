@@ -18,7 +18,7 @@ public class Entity : DefinedPhysicsObject {
         EntityDef = def;
         Behaviors = def.Behaviors.Select(behaviorDef => behaviorDef.Instantiate(this)).ToList();
     }
-
+    
     protected virtual void Construct() {
         var sprite = EntityDef.Sprite.Value;
         

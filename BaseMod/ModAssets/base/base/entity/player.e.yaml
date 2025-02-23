@@ -1,0 +1,16 @@
+sprite: "base:player"
+physics:
+  mass:
+    mass: 1
+  inertia: 1
+  angularDrag: 5
+  linearDrag: 2
+  fixtures: [
+    {
+      type: Rectangle,
+      radius: 0.5
+    }
+  ]
+behaviors: [
+  
+]

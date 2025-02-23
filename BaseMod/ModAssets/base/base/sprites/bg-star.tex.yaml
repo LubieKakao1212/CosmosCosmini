@@ -1,0 +1,19 @@
+source: stars-3x3.png
+regions:
+  - rect: { x : 3, y : 3 }
+  - {
+    position: { x: 3, y : 0 },
+    rect: { x : 3, y : 3 }
+  }
+  - {
+    position: { x: 6, y: 0 },
+    rect: { x : 3, y : 3 }
+  }
+  - {
+    position: { x: 9, y: 0 },
+    rect: { x : 3, y : 3 }
+  }
+  - {
+    position: { x: 12, y: 0 },
+    rect: { x: 3, y: 3 }
+  }

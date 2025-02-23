@@ -12,8 +12,11 @@ using static BaseMod.Keys.GameSystems;
 public class BaseGameSystemRegisterer : IGameSystemRegisterer {
     
     public void RegisterSystems(ModLoaderSystem modLoader, OrderedResolver<IGameSystem> systems) {
-        systems.New(ShipController, new ShipControlSystem(modLoader))
+        // systems.New(ShipController, new ShipControlSystem(modLoader))
+        //     .Register();
+        systems.New(Background, new BackgroundSystem(modLoader))
+            .Register();
+        systems.New(SpawnPlayer, new PlayerSpawnSystem(modLoader))
             .Register();
     }
-    
 }
