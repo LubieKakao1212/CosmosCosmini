@@ -15,9 +15,9 @@
     <ItemGroup>
       <PackageReference Include="Aether.Physics2D.Diagnostics.MG" Version="2.1.1" />
       <PackageReference Include="Aether.Physics2D.MG" Version="2.1.1" />
-      <PackageReference Include="Custom2d_Engine" Version="0.0.3" />
-      <PackageReference Include="Custom2d_Engine.FMOD" Version="0.0.3" />
-      <PackageReference Include="Custom2d_Engine.Physics" Version="0.0.3" />
+      <PackageReference Include="Custom2d_Engine" Version="0.0.4" />
+      <PackageReference Include="Custom2d_Engine.FMOD" Version="0.0.4" />
+      <PackageReference Include="Custom2d_Engine.Physics" Version="0.0.4" />
       <PackageReference Include="justloaded.content" Version="0.0.12" />
       <PackageReference Include="justloaded.core" Version="0.0.12" />
       <PackageReference Include="justloaded.filesystem" Version="0.0.12" />

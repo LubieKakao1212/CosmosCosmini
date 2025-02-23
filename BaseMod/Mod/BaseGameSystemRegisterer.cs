@@ -1,3 +1,4 @@
+using Base.Entities;
 using Base.Systems;
 using CosmosCosmini;
 using CosmosCosmini.Core;
@@ -18,5 +19,7 @@ public class BaseGameSystemRegisterer : IGameSystemRegisterer {
             .Register();
         systems.New(SpawnPlayer, new PlayerSpawnSystem(modLoader))
             .Register();
+
+        modLoader.AddAttachment(new EntityManager(modLoader));
     }
 }

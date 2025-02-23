@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Base.Def.Entities;
 using Base.Entities.Behaviors;
 using CosmosCosmini.Scene;
@@ -14,8 +15,11 @@ public class Entity : DefinedPhysicsObject {
 
     private bool WasConstructed { get; set; }
 
-    public Entity(EntityDef def, World world) : base(def.Physics, world) {
+    protected EntityManager Manager { get; }
+
+    public Entity(EntityDef def, World world, EntityManager manager) : base(def.Physics, world) {
         EntityDef = def;
+        this.Manager = manager;
         Behaviors = def.Behaviors.Select(behaviorDef => behaviorDef.Instantiate(this)).ToList();
     }
     
