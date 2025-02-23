@@ -50,16 +50,22 @@ public abstract class WeaponInstance<TDef>(TDef def, WeaponsBehavior ownerBehavi
     public TDef Def { get; set; } = def;
 
     protected override void DoShoot() {
-        var angleExtra = MathHelper.ToRadians(attachmentPoint.Def.Direction) +
-                    MathHelper.ToRadians(Def.Scatter.ScatterAngle()); 
-        DoShoot2(_ownerBehavior.entity.Transform.GlobalRotation + angleExtra);
+        float[] angles = new float[Def.ShotsPerBurst];
+        for (int i = 0; i < Def.ShotsPerBurst; i++) {
+            var angleExtra = MathHelper.ToRadians(attachmentPoint.Def.Direction) +
+                             MathHelper.ToRadians(Def.Scatter.ScatterAngle());
+            DoShoot2(_ownerBehavior.entity.Transform.GlobalRotation + angleExtra);
 
-        var pb = ownerBehavior.entity.PhysicsBody;
-        var up = ownerBehavior.entity.Transform.Up;
-        up.Rotate(angleExtra);
-        
-        pb.ApplyLinearImpulse(up * -def.Recoil);
-        
+            angles[i] = angleExtra;
+        }
+
+        for (int i = 0; i < Def.ShotsPerBurst; i++) {
+            var pb = ownerBehavior.entity.PhysicsBody;
+            var up = ownerBehavior.entity.Transform.Up;
+            up.Rotate(angles[i]);
+
+            pb.ApplyLinearImpulse(up * -def.Recoil);
+        }
     }
 
     protected abstract void DoShoot2(float globalDirection);

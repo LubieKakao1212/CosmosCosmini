@@ -17,8 +17,8 @@ public class PlayerMovementBehaviour(PlayerMovementBehaviourDef def, Entity enti
         entity.Manager.Controls.SecondaryAction.Started += input => weapons.StartShooting("sniper-gun"); // TODO unhardcode id
         entity.Manager.Controls.SecondaryAction.Canceled += input => weapons.StopShooting("sniper-gun"); // TODO unhardcode id
         
-        // entity.Manager.Controls.MainAction.Started += input => weapons.StartShooting("boost-gun"); // TODO unhardcode id
-        // entity.Manager.Controls.MainAction.Canceled += input => weapons.StopShooting("boost-gun"); // TODO unhardcode id
+        entity.Manager.Controls.Boost.Started += input => weapons.StartShooting("boost-gun"); // TODO unhardcode id
+        entity.Manager.Controls.Boost.Canceled += input => weapons.StopShooting("boost-gun"); // TODO unhardcode id
     }
 
     public override void Update(GameTime gameTime)

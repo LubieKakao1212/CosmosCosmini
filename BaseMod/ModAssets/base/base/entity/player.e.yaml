@@ -31,5 +31,10 @@ behaviors:
         localPosition: { x: 0, y: 0.5 },
         direction: 0,
         weapon: "base:sniper"
+      },
+      "boost-gun": {
+        localPosition: { x: 0, y: -0.5 },
+        direction: 180,
+        weapon: "base:shotgun"
       }
     }

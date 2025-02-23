@@ -1,6 +1,5 @@
 using JustLoaded.Content;
 using JustLoaded.Core.Reflect;
-using JustLoaded.Logger;
 
 namespace Base;
 
@@ -18,7 +17,6 @@ public class BaseMod {
         public static class Phases { }
         
         public static class GameSystems {
-            // public static readonly ContentKey ShipController = MakeKey("ship-controller");
             public static readonly ContentKey Background = MakeKey("background");
             public static readonly ContentKey SpawnPlayer = MakeKey("spawn-player");
         }

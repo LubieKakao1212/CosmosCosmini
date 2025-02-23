@@ -7,8 +7,8 @@ using JustLoaded.Loading;
 
 namespace Base.Def.Weapon;
 
-[Def("wepo", SearchDir = "ship")]
-[CreateDb("weapon")]
+[Def("wepo", SearchDir = "weapons")]
+[CreateDb("weapons")]
 public abstract class WeaponDef : PolymorphicDef {
 
     public required int Damage { get; init; }
@@ -20,6 +20,8 @@ public abstract class WeaponDef : PolymorphicDef {
     public double Range { get; init; } = -1;
 
     public float Recoil { get; init; } = 0;
+
+    public int ShotsPerBurst { get; init; } = 1;
 
     //TODO convert to general purpose random
     public WeaponScatterDef Scatter { get; init; } = new IdentityScatterDef();

@@ -1,0 +1,11 @@
+type: "base:projectile"
+damage: 2
+fireRate:  1s
+projectile: "base:laser-proj"
+launchVelocity: 1
+recoil: 1
+shotsPerBurst: 16
+scatter: {
+  type: "base:gaussian",
+  stdDev: 16
+}
