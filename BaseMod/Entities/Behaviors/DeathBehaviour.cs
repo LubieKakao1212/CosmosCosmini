@@ -1,4 +1,4 @@
-using Base.Def.Entities.Behaviors;
+using Base.Entities.Behaviors.Def;
 
 namespace Base.Entities.Behaviors;
 
@@ -7,7 +7,7 @@ public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavi
     public override void Construct()
     {
         base.Construct();
-        HealthBehaviour? healthBehaviour = _entity.GetOnlyBehavior<HealthBehaviour>();
+        HealthBehaviour? healthBehaviour = entity.GetOnlyBehavior<HealthBehaviour>();
         if (healthBehaviour == null)
         {
             throw new ApplicationException("Expected health behaviour in entity");
@@ -20,15 +20,15 @@ public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavi
 
     private void Death()
     {
-        if (_entity.CurrentHierarchy != null)
+        if (entity.CurrentHierarchy != null)
         {
-            if (_entity.Parent != null)
+            if (entity.Parent != null)
             {
-                _entity.Parent = null;
+                entity.Parent = null;
             }
             else
             {
-                _entity.CurrentHierarchy.RemoveObject(_entity);
+                entity.CurrentHierarchy.RemoveObject(entity);
             }
         }
     }

@@ -1,4 +1,4 @@
-using Base.Def.Entities;
+using Base.Entities.Def;
 using CosmosCosmini;
 using JustLoaded.Content;
 using JustLoaded.Content.Database;

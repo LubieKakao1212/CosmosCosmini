@@ -1,0 +1,11 @@
+source: projectile1-10x22.png
+regions:
+  - rect: { x : 10, y : 22 }
+  - {
+    position: { x: 10, y : 0 },
+    rect: { x : 10, y : 22 }
+  }
+  - {
+    position: { x: 20, y: 0 },
+    rect: { x : 10, y : 22 }
+  }

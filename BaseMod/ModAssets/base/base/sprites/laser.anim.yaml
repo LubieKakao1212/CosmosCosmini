@@ -1,0 +1,8 @@
+frameDuration: 0.15
+sequence:
+  frames: [
+      "base:laser_0",
+      "base:laser_1",
+      "base:laser_2",
+      "base:laser_1"
+  ]

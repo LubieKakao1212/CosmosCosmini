@@ -20,3 +20,11 @@ behaviors:
   - type: "base:player-movement-behaviour"
     enginePower: 20
     rotationTorque: 10
+  - type: "base:weapons"
+    weapons: {
+      "front-gun": {
+        localPosition: { x: 0, y: 1 },
+        direction: 0,
+        weapon: "base:proj"
+      }
+    }

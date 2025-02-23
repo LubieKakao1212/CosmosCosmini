@@ -11,6 +11,11 @@ physics:
     {
       type: Rectangle,
       radius: 0.1
+    },
+    {
+      type: Rectangle,
+      tag: "hurt",
+      radius: 0.5
     }
   ]
 behaviors:
@@ -18,3 +23,5 @@ behaviors:
     maxHp: 1000
   - type: "base:death-behaviour"
   - type: "base:simple-ai"
+  - type: "base:hurtbox"
+    validTags: ["hurt"]

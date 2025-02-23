@@ -1,3 +1,3 @@
-source: player.png
+source: player-49x60.png
 regions:
-  - rect: { x : 67, y : 83 }
+  - rect: { x : 49, y : 60 }

@@ -1,4 +1,5 @@
 using Base.Def.Weapon.Scatter;
+using Base.Entities.Behaviors;
 using Base.Weapons;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Core.Serialization;
@@ -12,16 +13,17 @@ namespace Base.Def.Weapon;
 [CreateDb("weapon")]
 public abstract class WeaponDef : PolymorphicDef {
 
-    public required long Damage { get; init; }
+    public required int Damage { get; init; }
     
     //Rounds per second
-    public required double Rps { get; init; }
+    public required TimeSpan FireRate { get; init; }
     
     //In distance units
     public double Range { get; init; } = -1;
 
+    //TODO convert to general purpose random
     public WeaponScatterDef Scatter { get; init; } = new IdentityScatterDef();
 
-    public abstract WeaponInstance InstantiateWeapon(PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint);
+    public abstract WeaponInstance InstantiateWeapon(WeaponsBehavior ownerObject, AttachmentPoint attachmentPoint);
 
 }

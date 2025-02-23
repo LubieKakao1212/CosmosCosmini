@@ -1,6 +1,6 @@
 using System.ComponentModel;
-using Base.Def.Entities;
 using Base.Entities.Behaviors;
+using Base.Entities.Def;
 using CosmosCosmini.Scene;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
@@ -79,6 +79,14 @@ public class Entity : DefinedPhysicsObject {
             result = behavior;
         }
         return result;
+    }
+
+    public T? GetAnyInterface<T>() where T : class {
+        return this as T ?? GetAnyBehavior<T>();
+    }
+
+    public IEnumerable<T> GetInterfaces<T>() where T : class {
+        return this is T cast ? Enumerable.Repeat(cast, 1).Concat(GetBehaviors<T>()) : GetBehaviors<T>();
     }
     
 }

@@ -1,4 +1,5 @@
 using Base.Def.Weapon;
+using Base.Entities.Behaviors;
 using CosmosCosmini.Core.Def;
 using Custom2d_Engine.Physics;
 using Custom2d_Engine.Scenes;
@@ -14,7 +15,7 @@ public class AttachmentPointDef {
 
     public float Direction { get; init; } = 0;
 
-    public WeaponInstance InstantiateWeapon(PhysicsBodyObject owner) {
-        return Weapon.Value.InstantiateWeapon(owner, new AttachmentPoint(this));
+    public WeaponInstance InstantiateWeapon(WeaponsBehavior owner) {
+        return Weapon.Value!.InstantiateWeapon(owner, new AttachmentPoint(this));
     }
 }

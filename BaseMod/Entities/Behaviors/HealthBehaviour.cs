@@ -1,4 +1,4 @@
-using Base.Def.Entities.Behaviors;
+using Base.Entities.Behaviors.Def;
 using Custom2d_Engine.Ticking;
 using Microsoft.Xna.Framework;
 
@@ -31,7 +31,7 @@ public class HealthBehaviour(HealthBehaviourDef def, Entity entity) : EntityBeha
     public override void Construct()
     {
         base.Construct();
-        _entity.AddAccurateRepeatingAction(() => { ReceiveDamage(15); }, TimeSpan.FromSeconds(2.5f));
+        entity.AddAccurateRepeatingAction(() => { ReceiveDamage(15); }, TimeSpan.FromSeconds(2.5f));
     }
 
     public override void Update(GameTime gameTime)

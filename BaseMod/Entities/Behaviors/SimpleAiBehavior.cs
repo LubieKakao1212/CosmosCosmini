@@ -1,4 +1,4 @@
-using Base.Def.Entities.Behaviors;
+using Base.Entities.Behaviors.Def;
 using Base.Weapons;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Collision;
@@ -21,9 +21,9 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
     public override void Update(GameTime gameTime) {
         base.Update(gameTime);
 
-        var pb = _entity.PhysicsBody;
+        var pb = entity.PhysicsBody;
 
-        var pos = _entity.Transform.GlobalPosition;
+        var pos = entity.Transform.GlobalPosition;
 
         _target ??= FindTarget(pos);
 
@@ -43,13 +43,13 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
     }
 
     private Entity? FindTarget(Vector2 pos) {
-        var pb = _entity.PhysicsBody;
+        var pb = entity.PhysicsBody;
         var world = pb.World;
         var distanceSq = float.PositiveInfinity;
         Entity? target = null;
         world.QueryAABB(fixture => {
             var bodyHit = fixture.Body;
-            if (bodyHit != pb && bodyHit.Tag is Entity entity && entity.EntityDef.Alignment == _entity.EntityDef.Alignment.GetOpposite()) {
+            if (bodyHit != pb && bodyHit.Tag is Entity entity && entity.EntityDef.Alignment == ((EntityBehavior)this).entity.EntityDef.Alignment.GetOpposite()) {
                 var targetPos = bodyHit.Position;
                 var distanceToTargetSq = Vector2.DistanceSquared(pos, targetPos);
                 if (distanceToTargetSq < distanceSq) {

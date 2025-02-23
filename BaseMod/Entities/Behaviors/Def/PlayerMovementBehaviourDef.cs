@@ -1,8 +1,6 @@
-using Base.Entities;
-using Base.Entities.Behaviors;
 using CosmosCosmini.Core.Serialization;
 
-namespace Base.Def.Entities.Behaviors;
+namespace Base.Entities.Behaviors.Def;
 
 [SubType(typeof(EntityBehaviorDef), "player-movement-behaviour")]
 public class PlayerMovementBehaviourDef : EntityBehaviorDef

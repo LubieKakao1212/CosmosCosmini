@@ -1,10 +1,10 @@
-using Base.Def.Entities.Behaviors;
+using Base.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
 
 namespace Base.Entities.Behaviors;
 
 public abstract class EntityBehavior(Entity entity) {
-    protected readonly Entity _entity = entity;
+    public readonly Entity entity = entity;
 
     public virtual void Construct() { }
     

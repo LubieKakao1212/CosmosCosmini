@@ -1,9 +1,9 @@
 type: "base:projectile"
-damage: 1
-rps: 120
-projectile: "base:p1"
+damage: 15
+fireRate: 120m
+projectile: "base:laser-proj"
 launchVelocity: 5
 scatter: {
-   type: "base:uniform",
-   angle: 45
+   type: "base:gaussian",
+   stdDev: 5
 }

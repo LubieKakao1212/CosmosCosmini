@@ -1,4 +1,5 @@
 using Base.Def.Weapon;
+using Base.Entities.Behaviors;
 using CosmosCosmini;
 using Custom2d_Engine.Physics;
 using Custom2d_Engine.Ticking;
@@ -7,9 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Base.Weapons;
 
-public abstract class WeaponInstance(PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint, TimeSpan cooldown) {
+public abstract class WeaponInstance(WeaponsBehavior ownerBehavior, AttachmentPoint attachmentPoint, TimeSpan cooldown) {
 
-    protected readonly PhysicsBodyObject _ownerObject = ownerObject;
+    protected readonly WeaponsBehavior _ownerBehavior = ownerBehavior;
     protected TickMachineBase? _activeTicker;
     protected bool _active;
 
@@ -25,10 +26,10 @@ public abstract class WeaponInstance(PhysicsBodyObject ownerObject, AttachmentPo
     
     public virtual void StartShooting() {
         if (cooldown > TimeSpan.Zero) {
-            _activeTicker = _ownerObject.AddAccurateRepeatingAction(DoShoot, cooldown);
+            _activeTicker = _ownerBehavior.entity.AddAccurateRepeatingAction(DoShoot, cooldown);
         }
         else {
-            _activeTicker = _ownerObject.AddSimpleRepeatingAction(DoShoot, TimeSpan.FromMicroseconds(1));
+            _activeTicker = _ownerBehavior.entity.AddSimpleRepeatingAction(DoShoot, TimeSpan.FromMicroseconds(1));
         }
     }
     
@@ -46,11 +47,11 @@ public abstract class WeaponInstance(PhysicsBodyObject ownerObject, AttachmentPo
     public virtual void Hit() { }
 }
 
-public abstract class WeaponInstance<TDef>(TDef def, PhysicsBodyObject ownerObject, AttachmentPoint attachmentPoint) : WeaponInstance(ownerObject, attachmentPoint, TimeSpan.FromSeconds(1f / def.Rps)) where TDef : WeaponDef {
+public abstract class WeaponInstance<TDef>(TDef def, WeaponsBehavior ownerBehavior, AttachmentPoint attachmentPoint) : WeaponInstance(ownerBehavior, attachmentPoint, def.FireRate) where TDef : WeaponDef {
     public TDef Def { get; set; } = def;
 
     protected override void DoShoot() {
-        DoShoot2(_ownerObject.Transform.GlobalRotation + 
+        DoShoot2(_ownerBehavior.entity.Transform.GlobalRotation + 
                  MathHelper.ToRadians(attachmentPoint.Def.Direction) + 
                  MathHelper.ToRadians(Def.Scatter.ScatterAngle()));
     }

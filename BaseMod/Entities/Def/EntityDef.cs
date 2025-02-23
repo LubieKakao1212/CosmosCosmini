@@ -1,5 +1,4 @@
-using Base.Def.Entities.Behaviors;
-using Base.Entities;
+using Base.Entities.Behaviors.Def;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Core.Serialization;
 using CosmosCosmini.Graphics;
@@ -7,7 +6,7 @@ using JustLoaded.Content;
 using JustLoaded.Loading;
 using nkast.Aether.Physics2D.Dynamics;
 
-namespace Base.Def.Entities;
+namespace Base.Entities.Def;
 
 [Def("e", SearchDir = "entity")]
 [CreateDb("entity")]

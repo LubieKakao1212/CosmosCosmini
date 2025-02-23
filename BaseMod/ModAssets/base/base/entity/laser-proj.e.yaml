@@ -1,0 +1,18 @@
+sprite: "base:laser"
+type: "base:projectile"
+alignment: Friendly
+physics:
+  type: dynamic
+  mass:
+    mass: 1
+  inertia: 0.5
+  angularDrag: 1000
+  linearDrag: 0
+  fixtures: [
+    {
+      type: Rectangle,
+      radius: 0.1
+    }
+  ]
+behaviors: []
+  
