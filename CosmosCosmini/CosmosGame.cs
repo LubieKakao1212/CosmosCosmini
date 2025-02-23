@@ -51,8 +51,11 @@ public class CosmosGame : Game {
         _graphicsManager = new GraphicsDeviceManager(this);
         _graphicsManager.GraphicsProfile = GraphicsProfile.HiDef;
         _graphicsManager.HardwareModeSwitch = false;
-        _graphicsManager.PreferredBackBufferWidth = 16 * 64;
-        _graphicsManager.PreferredBackBufferHeight = 9 * 64;
+        _graphicsManager.PreferredBackBufferWidth = 1920;//16 * 64;
+        _graphicsManager.PreferredBackBufferHeight = 1080;// 9 * 64;
+        _graphicsManager.PreferMultiSampling = true;
+        _graphicsManager.ToggleFullScreen();
+        GraphicsDevice.PresentationParameters.MultiSampleCount = 8;
         Content.RootDirectory = "Content";
     }
 
@@ -67,7 +70,7 @@ public class CosmosGame : Game {
         GlobalTickManager = new TickManager();
         
         GameHierarchy = new Hierarchy(GlobalTickManager);
-        GameCamera = new Camera { ViewSize = 4f, AspectRatio = 16f/9f };
+        GameCamera = new Camera { ViewSize = 8f, AspectRatio = 16f/9f };
         GameHierarchy.AddObject(GameCamera);
         
         Ui = new Hierarchy(GlobalTickManager);
