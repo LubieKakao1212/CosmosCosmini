@@ -1,7 +1,6 @@
 using Custom2d_Engine.Input;
 using Custom2d_Engine.Input.Binding;
 using Microsoft.Xna.Framework.Input;
-using YamlDotNet.Core.Tokens;
 
 namespace Base.Entities;
 
@@ -22,6 +21,10 @@ public class EntityControls : IEntityControls {
             );
         
         MainAction = inputManager.CreateSimpleBinding("", inputManager.GetMouse(MouseButton.Left), gamepad.GetButton(GamePadButton.Left));
+        
+        //Temporary
+        SecondaryAction = inputManager.GetMouse(MouseButton.Right); 
+        Boost = inputManager.GetKey(Keys.Space);
     }
 
     private static IInput CombineKeyAndAxis(InputManager manager, Keys negative, Keys positive, ValueInputBase<float> axis) {

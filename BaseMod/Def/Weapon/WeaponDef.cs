@@ -3,9 +3,7 @@ using Base.Entities.Behaviors;
 using Base.Weapons;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Core.Serialization;
-using Custom2d_Engine.Physics;
 using JustLoaded.Loading;
-using YamlDotNet.Serialization;
 
 namespace Base.Def.Weapon;
 
@@ -20,6 +18,8 @@ public abstract class WeaponDef : PolymorphicDef {
     
     //In distance units
     public double Range { get; init; } = -1;
+
+    public float Recoil { get; init; } = 0;
 
     //TODO convert to general purpose random
     public WeaponScatterDef Scatter { get; init; } = new IdentityScatterDef();

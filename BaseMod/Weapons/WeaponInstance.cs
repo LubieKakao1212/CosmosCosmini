@@ -1,7 +1,6 @@
 using Base.Def.Weapon;
 using Base.Entities.Behaviors;
 using CosmosCosmini;
-using Custom2d_Engine.Physics;
 using Custom2d_Engine.Ticking;
 using Custom2d_Engine.Ticking.Actions;
 using Microsoft.Xna.Framework;
@@ -51,9 +50,16 @@ public abstract class WeaponInstance<TDef>(TDef def, WeaponsBehavior ownerBehavi
     public TDef Def { get; set; } = def;
 
     protected override void DoShoot() {
-        DoShoot2(_ownerBehavior.entity.Transform.GlobalRotation + 
-                 MathHelper.ToRadians(attachmentPoint.Def.Direction) + 
-                 MathHelper.ToRadians(Def.Scatter.ScatterAngle()));
+        var angleExtra = MathHelper.ToRadians(attachmentPoint.Def.Direction) +
+                    MathHelper.ToRadians(Def.Scatter.ScatterAngle()); 
+        DoShoot2(_ownerBehavior.entity.Transform.GlobalRotation + angleExtra);
+
+        var pb = ownerBehavior.entity.PhysicsBody;
+        var up = ownerBehavior.entity.Transform.Up;
+        up.Rotate(angleExtra);
+        
+        pb.ApplyLinearImpulse(up * -def.Recoil);
+        
     }
 
     protected abstract void DoShoot2(float globalDirection);

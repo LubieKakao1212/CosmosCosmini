@@ -1,6 +1,5 @@
 using Base.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
-using nkast.Aether.Physics2D.Common;
 
 namespace Base.Entities.Behaviors;
 
@@ -14,6 +13,10 @@ public class PlayerMovementBehaviour(PlayerMovementBehaviourDef def, Entity enti
         
         entity.Manager.Controls.MainAction.Started += input => weapons.StartShooting("front-gun"); // TODO unhardcode id
         entity.Manager.Controls.MainAction.Canceled += input => weapons.StopShooting("front-gun"); // TODO unhardcode id
+        
+        entity.Manager.Controls.SecondaryAction.Started += input => weapons.StartShooting("sniper-gun"); // TODO unhardcode id
+        entity.Manager.Controls.SecondaryAction.Canceled += input => weapons.StopShooting("sniper-gun"); // TODO unhardcode id
+        
         // entity.Manager.Controls.MainAction.Started += input => weapons.StartShooting("boost-gun"); // TODO unhardcode id
         // entity.Manager.Controls.MainAction.Canceled += input => weapons.StopShooting("boost-gun"); // TODO unhardcode id
     }
