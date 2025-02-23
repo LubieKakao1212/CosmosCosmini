@@ -2,10 +2,18 @@ type: "base:projectile"
 damage: 2
 fireRate:  1s
 projectile: "base:laser-proj"
-launchVelocity: 1
-recoil: 1
-shotsPerBurst: 16
+launchVelocity: {
+    type: "core:gaussian",
+    min: 0.5,
+    stdDev: 1,
+    mean: 12
+}
+spawnOffset: { type: "core:uniform", min: 0.5, max: 0.75 }
+recoil: 0.125
+shotsPerBurst:
+  type: "core:const"
+  value: 32
 scatter: {
-  type: "base:gaussian",
-  stdDev: 16
+  type: "core:gaussian",
+  stdDev: 10
 }

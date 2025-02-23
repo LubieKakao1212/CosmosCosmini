@@ -1,7 +1,8 @@
-using Base.Def.Weapon.Scatter;
 using Base.Entities.Behaviors;
 using Base.Weapons;
 using CosmosCosmini.Core.Def;
+using CosmosCosmini.Core.Math;
+using CosmosCosmini.Core.Math.Def;
 using CosmosCosmini.Core.Serialization;
 using JustLoaded.Loading;
 
@@ -21,10 +22,10 @@ public abstract class WeaponDef : PolymorphicDef {
 
     public float Recoil { get; init; } = 0;
 
-    public int ShotsPerBurst { get; init; } = 1;
-
+    public SamplerDef ShotsPerBurst { get; init; } = new ConstSamplerDef() { Value = 1 };
+    
     //TODO convert to general purpose random
-    public WeaponScatterDef Scatter { get; init; } = new IdentityScatterDef();
+    public SamplerDef Scatter { get; init; } = new ConstSamplerDef();
 
     public abstract WeaponInstance InstantiateWeapon(WeaponsBehavior ownerObject, AttachmentPoint attachmentPoint);
 

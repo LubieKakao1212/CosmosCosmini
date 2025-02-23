@@ -33,7 +33,7 @@ behaviors:
         weapon: "base:sniper"
       },
       "boost-gun": {
-        localPosition: { x: 0, y: -0.5 },
+        localPosition: { x: 0, y: -0 },
         direction: 180,
         weapon: "base:shotgun"
       }

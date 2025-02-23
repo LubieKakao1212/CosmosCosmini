@@ -1,6 +1,8 @@
 using Base.Entities.Behaviors;
 using Base.Entities.Def;
 using Base.Weapons;
+using CosmosCosmini.Core.Math;
+using CosmosCosmini.Core.Math.Def;
 using CosmosCosmini.Core.Serialization;
 using Custom2d_Engine.Physics;
 using JustLoaded.Content;
@@ -12,7 +14,9 @@ public class ProjectileWeaponDef : WeaponDef {
 
     public required DatabaseReference<EntityDef> Projectile { get; init; }
 
-    public required float LaunchVelocity { get; set; }
+    public required SamplerDef LaunchVelocity { get; init; }
+
+    public SamplerDef SpawnOffset { get; init; } = new ConstSamplerDef();
 
     public override WeaponInstance InstantiateWeapon(WeaponsBehavior ownerObject, AttachmentPoint attachmentPoint) {
         return new ProjectileWeapon(this, ownerObject, attachmentPoint);
