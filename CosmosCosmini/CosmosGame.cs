@@ -53,9 +53,8 @@ public class CosmosGame : Game {
         _graphicsManager.HardwareModeSwitch = false;
         _graphicsManager.PreferredBackBufferWidth = 1920;//16 * 64;
         _graphicsManager.PreferredBackBufferHeight = 1080;// 9 * 64;
-        _graphicsManager.PreferMultiSampling = true;
+        _graphicsManager.HardwareModeSwitch = false;
         _graphicsManager.ToggleFullScreen();
-        GraphicsDevice.PresentationParameters.MultiSampleCount = 8;
         Content.RootDirectory = "Content";
     }
 
