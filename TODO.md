@@ -1,7 +1,7 @@
-- Weapons:
-  - Hurtboxes
-  - Projectile Entity
-  - Recoil
-- Tiled editor for entity shapes, sprites, mass, inertia, pivot (center of mass)
-- Enemy spawning
-  - SpawningDef
+- [ ] Weapons:
+  - [x] Hurtboxes
+  - [x] Projectile Entity
+  - [x] Recoil
+- [ ] Tiled editor for entity shapes, sprites, mass, inertia, pivot (center of mass)
+- [ ] Enemy spawning
+  - [ ] SpawningDef
