@@ -15,7 +15,7 @@ public abstract class WeaponDef : PolymorphicDef {
     public required int Damage { get; init; }
     
     //Rounds per second
-    public required TimeSpan FireRate { get; init; }
+    public required TimeRate FireRate { get; init; }
     
     //In distance units
     public double Range { get; init; } = -1;

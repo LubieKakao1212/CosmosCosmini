@@ -1,6 +1,6 @@
 type: "base:projectile"
 damage: 15
-fireRate: 120m
+fireRate: 8/s
 projectile: "base:laser-proj"
 launchVelocity: 
    type: "core:const"
