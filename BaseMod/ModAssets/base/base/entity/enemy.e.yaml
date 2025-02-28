@@ -1,5 +1,4 @@
 sprite: "base:player"
-alignment: Hostile
 physics:
   type: dynamic
   mass:
@@ -22,6 +21,8 @@ behaviors:
   - type: "base:hp-behaviour"
     maxHp: 1000
   - type: "base:death-behaviour"
+  - type: "base:faction-alignment"
+    alignment: Hostile
   - type: "base:simple-ai"
   - type: "base:hurtbox"
     validTags: ["hurt"]

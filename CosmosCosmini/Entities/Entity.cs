@@ -1,11 +1,10 @@
-using System.ComponentModel;
-using Base.Entities.Behaviors;
-using Base.Entities.Def;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Def;
 using CosmosCosmini.Scene;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
-namespace Base.Entities;
+namespace CosmosCosmini.Entities;
 
 public class Entity : DefinedPhysicsObject {
 
@@ -70,17 +69,21 @@ public class Entity : DefinedPhysicsObject {
         return GetBehaviors<T>().FirstOrDefault();
     }
 
-    public T? GetOnlyBehavior<T>() where T : class {
+    public T? GetOnlyBehaviorOrNull<T>() where T : class {
         T? result = null;
         foreach (var behavior in GetBehaviors<T>()) {
             if (result != null) {
-                throw new ApplicationException($"More than one argument of type {typeof(T)}");
+                throw new ApplicationException($"More than one behavior of type {typeof(T)}");
             }
             result = behavior;
         }
         return result;
     }
-
+    
+    public T GetOnlyBehavior<T>() where T : class {
+        return GetOnlyBehaviorOrNull<T>() ?? throw new ApplicationException($"No behavior of type {typeof(T)}");
+    }
+    
     public T? GetAnyInterface<T>() where T : class {
         return this as T ?? GetAnyBehavior<T>();
     }

@@ -1,6 +1,5 @@
 sprite: "base:laser"
 type: "base:projectile"
-alignment: Friendly
 physics:
   type: dynamic
   mass:

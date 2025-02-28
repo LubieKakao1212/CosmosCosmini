@@ -2,7 +2,7 @@ using Custom2d_Engine.Input;
 using Custom2d_Engine.Input.Binding;
 using Microsoft.Xna.Framework.Input;
 
-namespace Base.Entities;
+namespace CosmosCosmini.Entities;
 
 public class EntityControls : IEntityControls {
     public IInput Move { get; }

@@ -1,6 +1,6 @@
 using CosmosCosmini.Core.Def;
 
-namespace Base.Entities.Behaviors.Def;
+namespace CosmosCosmini.Entities.Behaviors.Def;
 
 public abstract class EntityBehaviorDef : PolymorphicDef {
 

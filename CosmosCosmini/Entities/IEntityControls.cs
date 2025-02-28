@@ -1,6 +1,6 @@
 using Custom2d_Engine.Input;
 
-namespace Base.Entities;
+namespace CosmosCosmini.Entities;
 
 public interface IEntityControls {
     

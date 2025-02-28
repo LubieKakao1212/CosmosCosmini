@@ -1,20 +1,18 @@
-using Base.Entities.Behaviors.Def;
 using CosmosCosmini.Core.Def;
 using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities.Behaviors.Def;
 using CosmosCosmini.Graphics;
 using JustLoaded.Content;
 using JustLoaded.Loading;
 using nkast.Aether.Physics2D.Dynamics;
 
-namespace Base.Entities.Def;
+namespace CosmosCosmini.Entities.Def;
 
 [Def("e", SearchDir = "entity")]
 [CreateDb("entity")]
 public class EntityDef : PolymorphicDef {
     public EntityBehaviorDef[] Behaviors { get; init; } = [];
     
-    public required FactionAlignment Alignment { get; init; }
-
     //TODO use shapes from tiled
     public required DatabaseReference<AnimatedSprite> Sprite { get; init; }
     

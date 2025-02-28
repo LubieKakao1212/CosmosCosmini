@@ -1,5 +1,4 @@
-using Base.Entities.Def;
-using CosmosCosmini;
+using CosmosCosmini.Entities.Def;
 using JustLoaded.Content;
 using JustLoaded.Content.Database;
 using JustLoaded.Core;
@@ -7,7 +6,7 @@ using JustLoaded.Logger;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
-namespace Base.Entities;
+namespace CosmosCosmini.Entities;
 
 public class EntityManager {
 

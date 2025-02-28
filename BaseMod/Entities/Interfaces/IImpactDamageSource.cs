@@ -1,3 +1,4 @@
+using CosmosCosmini.Entities;
 using nkast.Aether.Physics2D.Dynamics;
 
 namespace Base.Entities.Interfaces;

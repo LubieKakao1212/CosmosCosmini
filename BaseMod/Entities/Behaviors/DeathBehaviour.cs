@@ -1,4 +1,7 @@
-using Base.Entities.Behaviors.Def;
+using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Behaviors.Def;
 
 namespace Base.Entities.Behaviors;
 
@@ -8,14 +11,7 @@ public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavi
     {
         base.Construct();
         HealthBehaviour? healthBehaviour = entity.GetOnlyBehavior<HealthBehaviour>();
-        if (healthBehaviour == null)
-        {
-            throw new ApplicationException("Expected health behaviour in entity");
-        }
-        else
-        {
-            healthBehaviour.HealthDepleted += Death;
-        }
+        healthBehaviour.HealthDepleted += Death;
     }
 
     private void Death()
@@ -31,5 +27,14 @@ public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavi
                 entity.CurrentHierarchy.RemoveObject(entity);
             }
         }
+    }
+}
+
+[SubType(typeof(EntityBehaviorDef), "death-behaviour")]
+public class DeathBehaviourDef : EntityBehaviorDef
+{
+    public override EntityBehavior Instantiate(Entity entity)
+    {
+        return new DeathBehaviour(this, entity);
     }
 }

@@ -2,6 +2,7 @@ using Base.Entities;
 using Base.Systems;
 using CosmosCosmini;
 using CosmosCosmini.Core;
+using CosmosCosmini.Entities;
 using JustLoaded.Core;
 using JustLoaded.Core.Reflect;
 

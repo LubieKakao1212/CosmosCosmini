@@ -5,3 +5,4 @@
 - [ ] Tiled editor for entity shapes, sprites, mass, inertia, pivot (center of mass)
 - [ ] Enemy spawning
   - [ ] SpawningDef
+- [ ] Add more descriptive errors when PolymorphicDef does not find a suitable overload

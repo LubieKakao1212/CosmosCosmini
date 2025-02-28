@@ -1,5 +1,8 @@
-using Base.Entities.Behaviors.Def;
 using Base.Weapons;
+using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Collision;
 
@@ -46,15 +49,18 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
         var pb = entity.PhysicsBody;
         var world = pb.World;
         var distanceSq = float.PositiveInfinity;
+        var alignment = entity.GetOnlyBehavior<FactionAlignmentBehavior>().Def.Alignment;
         Entity? target = null;
         world.QueryAABB(fixture => {
             var bodyHit = fixture.Body;
-            if (bodyHit != pb && bodyHit.Tag is Entity entity && entity.EntityDef.Alignment == ((EntityBehavior)this).entity.EntityDef.Alignment.GetOpposite()) {
+            if (bodyHit != pb && bodyHit.Tag is Entity targetEntity) {
+                var targetAlignment = targetEntity.GetOnlyBehaviorOrNull<FactionAlignmentBehavior>();
+                
                 var targetPos = bodyHit.Position;
                 var distanceToTargetSq = Vector2.DistanceSquared(pos, targetPos);
-                if (distanceToTargetSq < distanceSq) {
+                if (distanceToTargetSq < distanceSq && (targetAlignment != null && targetAlignment.Def.Alignment == alignment.GetOpposite())) {
                     distanceSq = distanceToTargetSq;
-                    target = entity;
+                    target = targetEntity;
                 }
             }
             return true;
@@ -70,5 +76,12 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
         //     world.RayCast((fixture, point, normal, fraction) => );
         //     
         // }
+    }
+}
+
+[SubType(typeof(EntityBehaviorDef), "simple-ai")]
+public class SimpleAiBehaviorDef : EntityBehaviorDef {
+    public override EntityBehavior Instantiate(Entity entity) {
+        return new SimpleAiBehavior(this, entity);
     }
 }

@@ -1,4 +1,7 @@
-using Base.Entities.Behaviors.Def;
+using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Behaviors.Def;
 using Custom2d_Engine.Ticking;
 using Microsoft.Xna.Framework;
 
@@ -38,5 +41,17 @@ public class HealthBehaviour(HealthBehaviourDef def, Entity entity) : EntityBeha
     {
         base.Update(gameTime);
         
+    }
+}
+
+
+[SubType(typeof(EntityBehaviorDef), "hp-behaviour")]
+public class HealthBehaviourDef : EntityBehaviorDef
+{
+    public required int MaxHp { get; init; }
+    public override EntityBehavior Instantiate(Entity entity)
+    {
+        return new HealthBehaviour(this, entity);
+        //throw new NotImplementedException();
     }
 }

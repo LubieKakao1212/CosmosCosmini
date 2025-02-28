@@ -1,6 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using Base.Entities.Behaviors.Def;
 using Base.Entities.Interfaces;
+using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
@@ -42,5 +45,15 @@ public class HurtBoxesBehavior(HurtBoxesBehaviorDef def, Entity entity) : Entity
             Health.ReceiveDamage(damage);
         }
         _damageList.Clear();
+    }
+}
+
+[SubType(typeof(EntityBehaviorDef), "hurtbox")]
+public class HurtBoxesBehaviorDef : EntityBehaviorDef {
+
+    public required List<string> ValidTags { get; init; }
+
+    public override EntityBehavior Instantiate(Entity entity) {
+        return new HurtBoxesBehavior(this, entity);
     }
 }

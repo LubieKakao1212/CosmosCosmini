@@ -1,5 +1,4 @@
 sprite: "base:player"
-alignment: Friendly
 physics:
   type: dynamic
   mass:
@@ -20,6 +19,8 @@ behaviors:
   - type: "base:player-movement-behaviour"
     enginePower: 20
     rotationTorque: 10
+  - type: "base:faction-alignment"
+    alignment: Friendly
   - type: "base:weapons"
     weapons: {
       "front-gun": {

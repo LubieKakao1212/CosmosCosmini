@@ -1,7 +1,7 @@
-using Base.Entities.Behaviors.Def;
+using CosmosCosmini.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
 
-namespace Base.Entities.Behaviors;
+namespace CosmosCosmini.Entities.Behaviors;
 
 public abstract class EntityBehavior(Entity entity) {
     public readonly Entity entity = entity;

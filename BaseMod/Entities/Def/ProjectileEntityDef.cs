@@ -1,4 +1,6 @@
 using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Def;
 using nkast.Aether.Physics2D.Dynamics;
 
 namespace Base.Entities.Def;

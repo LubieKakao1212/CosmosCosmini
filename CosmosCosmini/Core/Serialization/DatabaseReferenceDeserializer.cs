@@ -53,7 +53,7 @@ public class DatabaseReferenceDeserializer(IReadOnlyMasterDatabase masterDatabas
     }
 
     private object ConstructDbRef(ContentKey id, ContentKey? dbId, Type contentType) {
-        return Activator.CreateInstance(TypeDbRef.MakeGenericType(contentType), id, dbId, masterDatabase) ?? throw new ApplicationException($"Error creating {typeof(DatabaseReference<>) }");
+        return Activator.CreateInstance(TypeDbRef.MakeGenericType(contentType), id, dbId, masterDatabase) ?? throw new YamlException($"Error creating {typeof(DatabaseReference<>) }");
     }
     
 }

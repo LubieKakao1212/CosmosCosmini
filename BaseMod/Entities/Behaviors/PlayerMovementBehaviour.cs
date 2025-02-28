@@ -1,4 +1,7 @@
-using Base.Entities.Behaviors.Def;
+using CosmosCosmini.Core.Serialization;
+using CosmosCosmini.Entities;
+using CosmosCosmini.Entities.Behaviors;
+using CosmosCosmini.Entities.Behaviors.Def;
 using Microsoft.Xna.Framework;
 
 namespace Base.Entities.Behaviors;
@@ -29,5 +32,16 @@ public class PlayerMovementBehaviour(PlayerMovementBehaviourDef def, Entity enti
         
         entity.PhysicsBody.ApplyForce(def.EnginePower*move*entity.Transform.Up);
         entity.PhysicsBody.ApplyTorque(def.RotationTorque*rotate);
+    }
+}
+
+[SubType(typeof(EntityBehaviorDef), "player-movement-behaviour")]
+public class PlayerMovementBehaviourDef : EntityBehaviorDef
+{
+    public required float EnginePower { get; init; } 
+    public required float RotationTorque { get; init; }
+    public override EntityBehavior Instantiate(Entity entity)
+    {
+        return new PlayerMovementBehaviour(this, entity);
     }
 }

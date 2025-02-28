@@ -1,5 +1,6 @@
 using Base.Entities;
 using CosmosCosmini;
+using CosmosCosmini.Entities;
 using CosmosCosmini.Scene;
 using Custom2d_Engine.Scenes;
 using JustLoaded.Content;
