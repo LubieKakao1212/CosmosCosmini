@@ -5,4 +5,8 @@
 - [ ] Tiled editor for entity shapes, sprites, mass, inertia, pivot (center of mass)
 - [ ] Enemy spawning
   - [ ] SpawningDef
+- [ ] Improve EntityManager
+- [ ] Add ObjectPool for entities
+  - [ ] Make EntityBehaviors resettable
+  - [ ] Make entities resettable
 - [ ] Add more descriptive errors when PolymorphicDef does not find a suitable overload
