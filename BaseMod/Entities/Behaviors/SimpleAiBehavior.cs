@@ -50,21 +50,9 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
         var world = pb.World;
         var distanceSq = float.PositiveInfinity;
         var alignment = entity.GetOnlyBehavior<FactionAlignmentBehavior>().Def.Alignment;
-        Entity? target = null;
-        world.QueryAABB(fixture => {
-            var bodyHit = fixture.Body;
-            if (bodyHit != pb && bodyHit.Tag is Entity targetEntity) {
-                var targetAlignment = targetEntity.GetOnlyBehaviorOrNull<FactionAlignmentBehavior>();
-                
-                var targetPos = bodyHit.Position;
-                var distanceToTargetSq = Vector2.DistanceSquared(pos, targetPos);
-                if (distanceToTargetSq < distanceSq && (targetAlignment != null && targetAlignment.Def.Alignment == alignment.GetOpposite())) {
-                    distanceSq = distanceToTargetSq;
-                    target = targetEntity;
-                }
-            }
-            return true;
-        }, new AABB(pos, 10f, 10f));
+        Entity? target = entity.Manager.GetFirstEntity(ent => ent.GetOnlyBehaviorOrNull<PlayerMovementBehaviour>() != null);
+        
+        
 
         return target;
         // for (int i = 0; i < 64; i++) {

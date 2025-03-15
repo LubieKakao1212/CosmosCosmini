@@ -6,8 +6,10 @@ using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities;
 
-public class Entity : DefinedPhysicsObject {
+public class Entity : DefinedPhysicsObject
+{
 
+    public event Action<Entity> OnDespawn = delegate{}; 
     public List<EntityBehavior> Behaviors { get; }
 
     public EntityDef EntityDef { get; }
@@ -59,6 +61,8 @@ public class Entity : DefinedPhysicsObject {
         foreach (var behavior in Behaviors) {
             behavior.OnEntityRemoved();
         }
+
+        OnDespawn(this);
     }
 
     public IEnumerable<T> GetBehaviors<T>() where T : class {

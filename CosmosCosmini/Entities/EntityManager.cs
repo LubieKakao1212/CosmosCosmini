@@ -12,6 +12,7 @@ public class EntityManager {
 
     public IEntityControls Controls { get; }
 
+    private HashSet<Entity> _entities = new();
     public ILogger Logger { get; }
 
     private readonly World _world;
@@ -44,7 +45,31 @@ public class EntityManager {
         var entity = def.Instantiate(_world, this);
         entity.Transform.GlobalPosition = position;
 
+        _entities.Add(entity);
+        entity.OnDespawn += RemoveEntity;
         return entity;
     }
+
+    private void RemoveEntity(Entity ent)
+    {
+        if (!_entities.Remove(ent))
+        {
+            Logger.Error("Dude it ain't there!");
+        }
+    }
+
+    public Entity GetFirstEntity(Func<Entity, bool> predicate)
+    {
+        return _entities.First(predicate);
+    }
     
+    public Entity? GetFirstEntityOrNull(Func<Entity, bool> predicate)
+    {
+        return _entities.FirstOrDefault(predicate);
+    }
+
+    public Entity? GetBestEntity(Func<Entity, Entity?, bool> predicate)
+    {
+        return _entities.Aggregate<Entity, Entity?>(null, (accumulate, entity) => predicate(entity, accumulate) ? entity : accumulate);
+    }
 }
