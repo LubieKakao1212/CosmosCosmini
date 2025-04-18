@@ -6,10 +6,11 @@ using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities;
 
+//TODO separate OnSpawned and OnSpawning
 public class Entity : DefinedPhysicsObject
 {
-
-    public event Action<Entity> OnDespawn = delegate{}; 
+    public event Action<Entity, DespawnAction> OnDespawn = delegate { };
+    
     public List<EntityBehavior> Behaviors { get; }
 
     public EntityDef EntityDef { get; }
@@ -17,26 +18,29 @@ public class Entity : DefinedPhysicsObject
     private bool WasConstructed { get; set; }
 
     public EntityManager Manager { get; }
-
+    
     public Entity(EntityDef def, World world, EntityManager manager) : base(def.Physics, world) {
         EntityDef = def;
         this.Manager = manager;
         Behaviors = def.Behaviors.Select(behaviorDef => behaviorDef.Instantiate(this)).ToList();
     }
     
-    protected virtual void Construct() {
-        var sprite = EntityDef.Sprite.Value;
-        
-        if (sprite != null) {
-            _ = new AnimatedDrawableObject(sprite) {
-                Parent = this
-            };
+    protected virtual void Construct(bool first) {
+        if (first) {
+            var sprite = EntityDef.Sprite.Value;
+
+            if (sprite != null) {
+                _ = new AnimatedDrawableObject(sprite) {
+                    Parent = this
+                };
+            }
         }
-        
+
         foreach (var behavior in Behaviors) {
-            behavior.Construct();
+            behavior.Construct(first);
         }
     }
+    
     protected override void CustomUpdate(GameTime time) {
         base.CustomUpdate(time);
         foreach (var behavior in Behaviors) {
@@ -46,25 +50,43 @@ public class Entity : DefinedPhysicsObject
 
     protected override void AddedToScene() {
         base.AddedToScene();
-        if (!WasConstructed) {
-            Construct();
-            WasConstructed = true;
-        }
-        
-        foreach (var behavior in Behaviors) {
-            behavior.OnEntityAdded();
-        }
+        //TODO checked if done by EntityManager
     }
 
     public override void RemovedFromScene() {
         base.RemovedFromScene();
+        //TODO checked if done by EntityManager
+    }
+    
+    public void Despawn(DespawnAction action) {
+        OnDespawn(this, action);
+        DoDespawn();
         foreach (var behavior in Behaviors) {
-            behavior.OnEntityRemoved();
+            behavior.OnDespawn();
         }
-
-        OnDespawn(this);
     }
 
+    protected virtual void DoDespawn() { }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="EntitySpawningFailedException"></exception>
+    internal void Spawn() {
+        Construct(!WasConstructed);
+        WasConstructed = true;
+        
+        DoSpawn();
+        foreach (var behavior in Behaviors) {
+            behavior.OnSpawn();
+        }
+    }
+    
+    /// <summary>
+    /// Invoked after <see cref="Construct"/>
+    /// </summary>
+    protected virtual void DoSpawn() { }
+    
     public IEnumerable<T> GetBehaviors<T>() where T : class {
         return Behaviors.OfType<T>();
     }

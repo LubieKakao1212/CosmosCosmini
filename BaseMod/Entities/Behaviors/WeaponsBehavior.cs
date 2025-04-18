@@ -10,13 +10,18 @@ public class WeaponsBehavior(WeaponsBehaviorDef def, Entity entity) : EntityBeha
 
     protected Dictionary<string, WeaponInstance> _weapons = new();
     
-    public override void Construct() {
-        base.Construct();
+    public override void Construct(bool first) {
+        base.Construct(first);
 
-        foreach (var weaponEntry in Def.Weapons) {
-            var weapon = weaponEntry.Value.InstantiateWeapon(this);
+        if (first) {
+            foreach (var weaponEntry in Def.Weapons) {
+                var weapon = weaponEntry.Value.InstantiateWeapon(this);
             
-            _weapons.Add(weaponEntry.Key, weapon);
+                _weapons.Add(weaponEntry.Key, weapon);
+            }
+        }
+        foreach (var weapon in _weapons) {
+            weapon.Value.ResetState();
         }
     }
 

@@ -7,11 +7,12 @@ namespace Base.Entities.Behaviors;
 
 public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavior<DeathBehaviourDef>(def, entity)
 {
-    public override void Construct()
-    {
-        base.Construct();
-        HealthBehaviour? healthBehaviour = entity.GetOnlyBehavior<HealthBehaviour>();
-        healthBehaviour.HealthDepleted += Death;
+    public override void Construct(bool first) {
+        base.Construct(first);
+        if (first) {
+            HealthBehaviour healthBehaviour = entity.GetOnlyBehavior<HealthBehaviour>();
+            healthBehaviour.HealthDepleted += Death;
+        }
     }
 
     private void Death()

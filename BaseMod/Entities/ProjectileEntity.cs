@@ -15,11 +15,13 @@ public class ProjectileEntity(EntityDef def, World world, EntityManager manager)
         return Damage;
     }
 
-    protected override void Construct() {
-        base.Construct();
+    protected override void Construct(bool first) {
+        base.Construct(first);
 
-        foreach (var fixture in PhysicsBody.FixtureList) {
-            fixture.IsSensor = true;
+        if (first) {
+            foreach (var fixture in PhysicsBody.FixtureList) {
+                fixture.IsSensor = true;
+            }   
         }
     }
 }

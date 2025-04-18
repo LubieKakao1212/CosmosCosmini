@@ -15,23 +15,25 @@ public class HurtBoxesBehavior(HurtBoxesBehaviorDef def, Entity entity) : Entity
 
     [NotNull] private HealthBehaviour? Health { get; set; }
 
-    public override void Construct() {
-        base.Construct();
-        Health = entity.GetOnlyBehavior<HealthBehaviour>() ?? throw new ApplicationException($"{nameof(HurtBoxesBehavior)} requires {nameof(HealthBehaviour)}");
-        foreach (var fixture in entity.PhysicsBody.FixtureList) {
-            if (Def.ValidTags.Contains(fixture.Tag)) {
-                fixture.IsSensor = true;
-                fixture.OnCollision += (sender, other, contact) => {
-                    if (other.Body.Tag is Entity otherEntity) { 
-                        int damage = 0;
-                        foreach (var source in otherEntity.GetInterfaces<IImpactDamageSource>()) {
-                            damage += source.HandleImpact(other, sender, entity);
+    public override void Construct(bool first) {
+        base.Construct(first);
+        if (first) {
+            Health = entity.GetOnlyBehavior<HealthBehaviour>() ?? throw new ApplicationException($"{nameof(HurtBoxesBehavior)} requires {nameof(HealthBehaviour)}");
+            foreach (var fixture in entity.PhysicsBody.FixtureList) {
+                if (Def.ValidTags.Contains(fixture.Tag)) {
+                    fixture.IsSensor = true;
+                    fixture.OnCollision += (sender, other, contact) => {
+                        if (other.Body.Tag is Entity otherEntity) { 
+                            int damage = 0;
+                            foreach (var source in otherEntity.GetInterfaces<IImpactDamageSource>()) {
+                                damage += source.HandleImpact(other, sender, entity);
+                            }
+                            OnHit(otherEntity, fixture, damage);
                         }
-                        OnHit(otherEntity, fixture, damage);
-                    }
-                    return true;
-                };
-            }
+                        return true;
+                    };
+                }
+            }   
         }
     }
 

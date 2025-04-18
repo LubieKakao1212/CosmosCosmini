@@ -15,8 +15,8 @@ public class SimpleAiBehavior(SimpleAiBehaviorDef def, Entity entity) : EntityBe
 
     private Entity? _target = null;
     
-    public override void OnEntityAdded() {
-        base.OnEntityAdded();
+    public override void OnSpawn() {
+        base.OnSpawn();
         _pidX.Reset();
         _pidY.Reset();
     }

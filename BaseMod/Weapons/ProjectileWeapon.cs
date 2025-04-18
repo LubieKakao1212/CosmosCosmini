@@ -2,6 +2,7 @@ using Base.Def.Weapon;
 using Base.Entities;
 using Base.Entities.Behaviors;
 using CosmosCosmini.Core.Math;
+using CosmosCosmini.Entities;
 using Custom2d_Engine.Ticking;
 
 namespace Base.Weapons;
@@ -19,9 +20,11 @@ public class ProjectileWeapon(ProjectileWeaponDef def, WeaponsBehavior ownerBeha
         var projectileRotation = globalDirection;
         var projectilePos = attachmentPoint.Def.LocalPosition.Construct();
         projectilePos = entity.Transform.LocalToWorld.TransformPoint(projectilePos);
-        var projectileEntity = entity.Manager.CreateEntity(projectileDef, projectilePos);
+        var projectileEntity = entity.Manager.MakeEntity(projectileDef);
         
+        projectileEntity.Transform.GlobalPosition = projectilePos;
         projectileEntity.Transform.GlobalRotation = projectileRotation;
+        
         var up = projectileEntity.Transform.Up;
         projectileEntity.Transform.GlobalPosition += up * Offset.Next();
         
@@ -33,10 +36,12 @@ public class ProjectileWeapon(ProjectileWeaponDef def, WeaponsBehavior ownerBeha
         
         IEnumerator<TimeSpan> Sequence() {
             yield return TimeSpan.FromSeconds(1f);
-            projectileEntity.CurrentHierarchy!.RemoveObject(projectileEntity);
+            projectileEntity.Despawn(DespawnAction.Return);
+            // projectileEntity.CurrentHierarchy!.RemoveObject(projectileEntity);
         }
         
         projectileEntity.AddActionSequence(Sequence());
-        entity.CurrentHierarchy!.AddObject(projectileEntity);
+        entity.Manager.SpawnEntity(projectileEntity);
+        // entity.CurrentHierarchy!.AddObject(projectileEntity);
     }
 }

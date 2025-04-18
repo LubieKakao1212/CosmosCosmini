@@ -31,9 +31,9 @@ public class HealthBehaviour(HealthBehaviourDef def, Entity entity) : EntityBeha
         Console.WriteLine("cur_hp = " + _currentHP.ToString());
     }
 
-    public override void Construct()
+    public override void Construct(bool first)
     {
-        base.Construct();
+        base.Construct(first);
         entity.AddAccurateRepeatingAction(() => { ReceiveDamage(15); }, TimeSpan.FromSeconds(2.5f));
     }
 

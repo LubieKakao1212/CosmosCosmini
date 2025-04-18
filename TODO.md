@@ -1,7 +1,8 @@
-- [ ] Weapons:
+- [x] Weapons:
   - [x] Hurtboxes
   - [x] Projectile Entity
   - [x] Recoil
+- [ ] Improve EntityManager
 - [ ] Tiled editor for entity shapes, sprites, mass, inertia, pivot (center of mass)
 - [ ] Enemy spawning
   - [ ] SpawningDef

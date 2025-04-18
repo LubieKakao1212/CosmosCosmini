@@ -12,6 +12,8 @@ namespace CosmosCosmini.Entities.Def;
 [CreateDb("entity")]
 public class EntityDef : PolymorphicDef {
     public EntityBehaviorDef[] Behaviors { get; init; } = [];
+
+    public bool UsePool { get; init; } = false;
     
     //TODO use shapes from tiled
     public required DatabaseReference<AnimatedSprite> Sprite { get; init; }

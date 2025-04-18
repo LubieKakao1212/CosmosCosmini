@@ -47,6 +47,8 @@ public abstract class WeaponInstance(WeaponsBehavior ownerBehavior, AttachmentPo
     }
     
     public virtual void Hit() { }
+
+    public virtual void ResetState() { }
 }
 
 public abstract class WeaponInstance<TDef>(TDef def, WeaponsBehavior ownerBehavior, AttachmentPoint attachmentPoint) : WeaponInstance(ownerBehavior, attachmentPoint, def.FireRate) where TDef : WeaponDef {
