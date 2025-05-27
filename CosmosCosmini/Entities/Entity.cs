@@ -1,16 +1,15 @@
+using CosmosCosmini.Core;
 using CosmosCosmini.Entities.Behaviors;
 using CosmosCosmini.Entities.Def;
 using CosmosCosmini.Scene;
+using Custom2d_Engine.Scenes;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities;
 
-//TODO separate OnSpawned and OnSpawning
-public class Entity : DefinedPhysicsObject
+public class Entity : DefinedPhysicsObject, IRefVersion
 {
-    public event Action<Entity, DespawnAction> OnDespawn = delegate { };
-    
     public List<EntityBehavior> Behaviors { get; }
 
     public EntityDef EntityDef { get; }
@@ -18,7 +17,16 @@ public class Entity : DefinedPhysicsObject
     private bool WasConstructed { get; set; }
 
     public EntityManager Manager { get; }
-    
+
+    private ulong Version { get; set; }
+
+    private bool allowReparent = false;
+        
+    ulong IRefVersion.Version {
+        get => Version;
+        set => Version = value;
+    }
+
     public Entity(EntityDef def, World world, EntityManager manager) : base(def.Physics, world) {
         EntityDef = def;
         this.Manager = manager;
@@ -49,17 +57,22 @@ public class Entity : DefinedPhysicsObject
     }
 
     protected override void AddedToScene() {
+        //TODO Does not work
+        // if (!allowReparent) {
+        //     throw new CannotReparentEntityException("Cannot manually reparent or change the scene of an entity", this);
+        // }
         base.AddedToScene();
-        //TODO checked if done by EntityManager
     }
 
     public override void RemovedFromScene() {
+        //TODO Does not work
+        // if (!allowReparent) {
+        //     throw new CannotReparentEntityException("Cannot manually reparent or change the scene of an entity", this);
+        // }
         base.RemovedFromScene();
-        //TODO checked if done by EntityManager
     }
     
-    public void Despawn(DespawnAction action) {
-        OnDespawn(this, action);
+    internal void Despawn() {
         DoDespawn();
         foreach (var behavior in Behaviors) {
             behavior.OnDespawn();
@@ -86,6 +99,18 @@ public class Entity : DefinedPhysicsObject
     /// Invoked after <see cref="Construct"/>
     /// </summary>
     protected virtual void DoSpawn() { }
+
+    internal void DoAddToScene(Hierarchy hierarchy) {
+        allowReparent = true;
+        hierarchy.AddObject(this);
+        allowReparent = false;
+    }
+    
+    internal void DoRemoveFromScene() {
+        allowReparent = true;
+        CurrentHierarchy?.RemoveObject(this);
+        allowReparent = false;
+    }
     
     public IEnumerable<T> GetBehaviors<T>() where T : class {
         return Behaviors.OfType<T>();

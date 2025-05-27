@@ -12,16 +12,14 @@ namespace CosmosCosmini.Entities;
 public class EntityManager {
 
     public IEntityControls Controls { get; }
-
-    private Dictionary<EntityDef, EntityPool> _pools = new();
-    
-    private readonly HashSet<Entity> _activeEntities = new();
     public ILogger Logger { get; }
 
-    private readonly World _world;
+    private readonly Dictionary<EntityDef, EntityPool> _pools = new();
+    private readonly HashSet<Entity> _activeEntities = new();
+    // private readonly Stack<(Entity, EntityOperation)> _currentlyOperatedOn = new();
     
+    private readonly World _world;
     private readonly IReadOnlyMasterDatabase _mdb;
-
     private readonly Hierarchy _hierarchy;
     
     public EntityManager(ModLoaderSystem modLoader) {
@@ -61,9 +59,6 @@ public class EntityManager {
     
     private Entity CreateEntity(EntityDef def) {
         var entity = def.Instantiate(_world, this);
-
-        // _activeEntities.Add(entity);
-        entity.OnDespawn += DespawnEntity;
         return entity;
     }
 
@@ -72,27 +67,40 @@ public class EntityManager {
             Logger.Error("Entity is already spawned");
             return;
         }
-        
         entity.Spawn();
-        _hierarchy.AddObject(entity);
+        entity.DoAddToScene(_hierarchy);
     }
 
-    private void DespawnEntity(Entity entity, DespawnAction action)
+    public void DespawnEntity(Entity entity)
     {
-        if (!_activeEntities.Remove(entity))
-        {
+        if (!_activeEntities.Contains(entity)) {
             Logger.Error("Dude it ain't there!, This will cause an invalid state"); //TODO replace with throw
+            Logger.LogTrace(LogLevel.Error, LogFilter.Always);
             return;
         }
-
-        _hierarchy.RemoveObject(entity);
         
-        if (action == DespawnAction.Keep) {
+        entity.DoRemoveFromScene();
+        entity.Despawn();
+        if (!_activeEntities.Remove(entity)) 
+        {
+            Logger.Error("Dude it ain't there! But it was there!, This will cause an invalid state"); //TODO replace with throw
+            Logger.LogTrace(LogLevel.Error, LogFilter.Always);
             return;
         }
-
-        if (action == DespawnAction.Return) {
-            //Return to pool
+    }
+    
+    public void ReturnEntity(Entity entity) {
+        if (_activeEntities.Contains(entity)) {
+            Logger.Error("Cannot return an active entity, despawn it first!!!"); //TODO replace with throw
+            Logger.LogTrace(LogLevel.Error, LogFilter.Always);
+            return;
+        }
+        
+        if (_pools.TryGetValue(entity.EntityDef, out var pool)) {
+            pool.Return(entity);
+        }
+        else {
+            _world.Remove(entity.PhysicsBody);
         }
     }
     

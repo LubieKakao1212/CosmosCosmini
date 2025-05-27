@@ -36,7 +36,7 @@ public class ProjectileWeapon(ProjectileWeaponDef def, WeaponsBehavior ownerBeha
         
         IEnumerator<TimeSpan> Sequence() {
             yield return TimeSpan.FromSeconds(1f);
-            projectileEntity.Despawn(DespawnAction.Return);
+            projectileEntity.Despawn();
             // projectileEntity.CurrentHierarchy!.RemoveObject(projectileEntity);
         }
         
