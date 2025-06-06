@@ -30,13 +30,13 @@ public class ProjectileWeapon(ProjectileWeaponDef def, WeaponsBehavior ownerBeha
         
         projectileEntity.PhysicsBody.LinearVelocity = up * Velocity.Next() + entity.PhysicsBody.LinearVelocity;
         
-        if (projectileEntity is ProjectileEntity proj) {
-            proj.Damage = Def.Damage;
-        }
+        // if (projectileEntity is ProjectileEntity proj) {
+        //     proj.Damage = Def.Damage;
+        // }
         
         IEnumerator<TimeSpan> Sequence() {
             yield return TimeSpan.FromSeconds(1f);
-            projectileEntity.Despawn();
+            projectileEntity.DespawnAndReturn();
             // projectileEntity.CurrentHierarchy!.RemoveObject(projectileEntity);
         }
         

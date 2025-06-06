@@ -1,6 +1,7 @@
 using CosmosCosmini.Core;
 using CosmosCosmini.Entities.Behaviors;
 using CosmosCosmini.Entities.Def;
+using CosmosCosmini.Entities.Tags;
 using CosmosCosmini.Scene;
 using Custom2d_Engine.Scenes;
 using Microsoft.Xna.Framework;
@@ -8,9 +9,10 @@ using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities;
 
+//TODO make sealed
 public class Entity : DefinedPhysicsObject, IRefVersion
 {
-    public List<EntityBehavior> Behaviors { get; }
+    private List<EntityBehavior> Behaviors { get; }
 
     public EntityDef EntityDef { get; }
 
@@ -21,18 +23,21 @@ public class Entity : DefinedPhysicsObject, IRefVersion
     private ulong Version { get; set; }
 
     private bool allowReparent = false;
-        
+
+    public override World World => Manager.PhysicsWorld;
+
     ulong IRefVersion.Version {
         get => Version;
         set => Version = value;
     }
 
-    public Entity(EntityDef def, World world, EntityManager manager) : base(def.Physics, world) {
+    public Entity(EntityDef def, EntityManager manager) : base(def.Physics) 
+    {
         EntityDef = def;
-        this.Manager = manager;
+        Manager = manager;
         Behaviors = def.Behaviors.Select(behaviorDef => behaviorDef.Instantiate(this)).ToList();
     }
-    
+
     protected virtual void Construct(bool first) {
         if (first) {
             var sprite = EntityDef.Sprite.Value;
@@ -42,13 +47,20 @@ public class Entity : DefinedPhysicsObject, IRefVersion
                     Parent = this
                 };
             }
+
+            foreach (var fixture in PhysicsBody.FixtureList) {
+                var tags = (string[])fixture.Tag;
+                fixture.Tag = new FixtureTag {
+                    Keywords = tags
+                };
+            }
         }
 
         foreach (var behavior in Behaviors) {
             behavior.Construct(first);
         }
     }
-    
+
     protected override void CustomUpdate(GameTime time) {
         base.CustomUpdate(time);
         foreach (var behavior in Behaviors) {

@@ -12,11 +12,11 @@ spawnOffset: { type: "core:uniform", min: 0.5, max: 0.75 }
 recoil: 0.125
 shotsPerBurst:
   type: "core:const"
-  value: 64
+  value: 512
 scatter: {
-#  type: "core:uniform",
-#  min: -180,
-#  max: 180
-  type: "core:gaussian",
-  stdDev: 25
+  type: "core:uniform",
+  min: -180,
+  max: 180
+#  type: "core:gaussian",
+#  stdDev: 25
 }

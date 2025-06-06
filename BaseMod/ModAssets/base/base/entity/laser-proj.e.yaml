@@ -1,5 +1,5 @@
 sprite: "base:laser"
-type: "base:projectile"
+usePool: true
 physics:
   type: dynamic
   mass:
@@ -7,11 +7,14 @@ physics:
   inertia: 0.5
   angularDrag: 1000
   linearDrag: 0
-  fixtures: [
-    {
-      type: Rectangle,
-      radius: 0.1
-    }
-  ]
-behaviors: []
+#  fixtures: [
+#    {
+#      type: Rectangle,
+#      radius: 0.1
+#    }
+#  ]
+behaviors:
+  - type: "base:motion-hurt"
+    baseDamage: 10
+    damageType: "base:laser"
   

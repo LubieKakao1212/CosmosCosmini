@@ -5,7 +5,6 @@ using JustLoaded.Core;
 using JustLoaded.Core.Reflect;
 using JustLoaded.Loading;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.BufferedDeserialization;
 using YamlDotNet.Serialization.BufferedDeserialization.TypeDiscriminators;
 using YamlDotNet.Serialization.NamingConventions;
 

@@ -2,7 +2,6 @@ using Custom2d_Engine.Math;
 using Custom2d_Engine.Rendering.Sprites;
 using Custom2d_Engine.Ticking;
 using JustLoaded.Content;
-using Microsoft.Xna.Framework;
 
 namespace CosmosCosmini.Graphics;
 
@@ -22,14 +21,22 @@ public class AnimatedSprite {
     private readonly AutoTimeMachine _animator;
 
     private int _currentFrame;
+
+    private readonly bool animated;
     
     public AnimatedSprite(DatabaseReference<Sprite>[] frames, TimeSpan frameDuration) {
         this._frames = frames;
-        _animator = new AutoTimeMachine(() => {
-            _currentFrame = (_currentFrame + 1 % frames.Length);
-            FrameChanged(this);
-        }, frameDuration);
+
+        animated = false;
         
+        if (frames.Length > 1) {
+            _animator = new AutoTimeMachine(() => {
+                _currentFrame = (_currentFrame + 1 % frames.Length);
+                FrameChanged(this);
+            }, frameDuration);
+            animated = true;
+        }
+
         FrameCount = frames.Length;
     }
 
@@ -54,7 +61,9 @@ public class AnimatedSprite {
     }
 
     public void Update(TimeSpan deltaTime) {
-        this._animator.Forward(deltaTime);
+        if (animated) {
+            this._animator.Forward(deltaTime);
+        }
     }
     
 }

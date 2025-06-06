@@ -5,16 +5,16 @@ using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Scene;
 
-public class DefinedPhysicsObject : PhysicsBodyObject {
+public abstract class DefinedPhysicsObject : PhysicsBodyObject {
 
-    public World World => PhysicsBody.World;
-    
-    public DefinedPhysicsObject(PhysicsDef def, World world) : base(world.CreateBody(bodyType: def.Type)) {
+    public abstract World World { get; }
+
+    public DefinedPhysicsObject(PhysicsDef def) : base(new Body { BodyType = def.Type }) {
         PhysicsBody.Tag = this;
         PhysicsBody.LinearDamping = def.LinearDrag;
         PhysicsBody.AngularDamping = def.AngularDrag;
         //TODO Move to Custom_2D
-        PhysicsBody.Enabled = false;
+        // PhysicsBody.Enabled = false;
         
         foreach (var fixtureDef in def.Fixtures) {
             PhysicsBody.Add(fixtureDef.Construct());
@@ -28,19 +28,23 @@ public class DefinedPhysicsObject : PhysicsBodyObject {
         if (def.Inertia != null) {
             PhysicsBody.Inertia = def.Inertia.Value;
         }
-        
     }
 
     protected override void CustomUpdate(GameTime time) {
-        //TODO Move to Custom_2D
-        if (!PhysicsBody.Enabled) {
-            PhysicsBody.Enabled = true;
-        }
+        // //TODO Move to Custom_2D
+        // if (!PhysicsBody.Enabled) {
+        //     PhysicsBody.Enabled = true;
+        // }
         base.CustomUpdate(time);
     }
-    
+
+    protected override void AddedToScene() {
+        base.AddedToScene();
+        World.AddAsync(PhysicsBody);
+    }
+
     public override void RemovedFromScene() {
         base.RemovedFromScene();
-        PhysicsBody.World.Remove(PhysicsBody);
+        World.RemoveAsync(PhysicsBody);
     }
 }

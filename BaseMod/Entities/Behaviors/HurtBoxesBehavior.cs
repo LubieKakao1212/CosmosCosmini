@@ -1,9 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
+using Base.Entities.Damage;
 using Base.Entities.Interfaces;
 using CosmosCosmini.Core.Serialization;
 using CosmosCosmini.Entities;
 using CosmosCosmini.Entities.Behaviors;
 using CosmosCosmini.Entities.Behaviors.Def;
+using CosmosCosmini.Entities.Tags;
 using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
@@ -11,42 +13,46 @@ namespace Base.Entities.Behaviors;
 
 public class HurtBoxesBehavior(HurtBoxesBehaviorDef def, Entity entity) : EntityBehavior<HurtBoxesBehaviorDef>(def, entity) {
 
-    private readonly List<int> _damageList = new();
+    private readonly List<DamageInstance> _damageList = new();
 
     [NotNull] private HealthBehaviour? Health { get; set; }
-
+    
     public override void Construct(bool first) {
         base.Construct(first);
         if (first) {
             Health = entity.GetOnlyBehavior<HealthBehaviour>() ?? throw new ApplicationException($"{nameof(HurtBoxesBehavior)} requires {nameof(HealthBehaviour)}");
-            foreach (var fixture in entity.PhysicsBody.FixtureList) {
-                if (Def.ValidTags.Contains(fixture.Tag)) {
-                    fixture.IsSensor = true;
-                    fixture.OnCollision += (sender, other, contact) => {
-                        if (other.Body.Tag is Entity otherEntity) { 
-                            int damage = 0;
-                            foreach (var source in otherEntity.GetInterfaces<IImpactDamageSource>()) {
-                                damage += source.HandleImpact(other, sender, entity);
-                            }
-                            OnHit(otherEntity, fixture, damage);
-                        }
-                        return true;
-                    };
-                }
-            }   
-        }
-    }
 
-    public virtual void OnHit(Entity? directSource, Fixture fixtureHit, int damage) {
-        _damageList.Add(damage);
+            var hurtResponder = new DamageHurtResponder { HurtBoxesBehavior = this };
+            
+            foreach (var fixture in entity.PhysicsBody.FixtureList) {
+                var tag = (FixtureTag) fixture.Tag;
+                bool flag = false;
+                foreach (var validTag in def.ValidTags) {
+                    flag |= tag.HasKeyword(validTag);
+                }
+                
+                if (flag) {
+                    tag.AddCompanion(hurtResponder);
+                }
+            }
+        }
     }
     
     public override void Update(GameTime gameTime) {
         base.Update(gameTime);
         foreach (var damage in _damageList) {
-            Health.ReceiveDamage(damage);
+            Health.ReceiveDamage(damage.Amount);
         }
         _damageList.Clear();
+    }
+
+    public class DamageHurtResponder : IHurtResponder {
+
+        public required HurtBoxesBehavior HurtBoxesBehavior { private get; init; }
+
+        public void OnHurt(in DamageInstance damage) {
+            HurtBoxesBehavior._damageList.Add(damage);
+        }
     }
 }
 

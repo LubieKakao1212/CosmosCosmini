@@ -1,5 +1,3 @@
-using CosmosCosmini.Core.Serialization;
-
 namespace CosmosCosmini.Core.Math.Def;
 
 public abstract class MinMaxSamplerDef : SamplerDef {

@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace CosmosCosmini.Entities;
 
 public class EntityException : ApplicationException {

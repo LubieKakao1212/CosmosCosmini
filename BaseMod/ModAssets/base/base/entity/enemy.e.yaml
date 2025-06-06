@@ -13,7 +13,7 @@ physics:
     },
     {
       type: Rectangle,
-      tag: "hurt",
+      tags: ["hurt"],
       radius: 0.5
     }
   ]

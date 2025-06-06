@@ -19,7 +19,7 @@ public class PhysicsDef {
     }
     
     public readonly struct FixtureDef() {
-        public string Tag { get; init; } = "";
+        public string[] Tags { get; init; } = [ ];
 
         //Shape
         public required ShapeType Type { get; init; }
@@ -56,7 +56,7 @@ public class PhysicsDef {
             var fixture = new Fixture(shape) {
                 Friction = Friction,
                 Restitution = Restitution,
-                Tag = Tag
+                Tag = Tags
             };
             return fixture;
         }

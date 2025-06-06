@@ -17,17 +17,7 @@ public class DeathBehaviour(DeathBehaviourDef def, Entity entity) : EntityBehavi
 
     private void Death()
     {
-        if (entity.CurrentHierarchy != null)
-        {
-            if (entity.Parent != null)
-            {
-                entity.Parent = null;
-            }
-            else
-            {
-                entity.CurrentHierarchy.RemoveObject(entity);
-            }
-        }
+        entity.DespawnAndReturn();
     }
 }
 

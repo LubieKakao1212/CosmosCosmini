@@ -4,7 +4,6 @@ using JustLoaded.Content;
 using JustLoaded.Content.Database;
 using JustLoaded.Core;
 using JustLoaded.Logger;
-using Microsoft.Xna.Framework;
 using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities;
@@ -13,6 +12,8 @@ public class EntityManager {
 
     public IEntityControls Controls { get; }
     public ILogger Logger { get; }
+
+    public World PhysicsWorld => _world;
 
     private readonly Dictionary<EntityDef, EntityPool> _pools = new();
     private readonly HashSet<Entity> _activeEntities = new();
@@ -58,7 +59,7 @@ public class EntityManager {
     }
     
     private Entity CreateEntity(EntityDef def) {
-        var entity = def.Instantiate(_world, this);
+        var entity = def.Instantiate(this);
         return entity;
     }
 
@@ -99,9 +100,9 @@ public class EntityManager {
         if (_pools.TryGetValue(entity.EntityDef, out var pool)) {
             pool.Return(entity);
         }
-        else {
-            _world.Remove(entity.PhysicsBody);
-        }
+        // else {
+        //     // _world.Remove(entity.PhysicsBody);
+        // }
     }
     
     public Entity GetFirstEntity(Func<Entity, bool> predicate)

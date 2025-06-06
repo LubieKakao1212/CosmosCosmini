@@ -1,11 +1,9 @@
 using Base.Entities.Behaviors;
-using Base.Entities.Def;
 using Base.Weapons;
 using CosmosCosmini.Core.Math;
 using CosmosCosmini.Core.Math.Def;
 using CosmosCosmini.Core.Serialization;
 using CosmosCosmini.Entities.Def;
-using Custom2d_Engine.Physics;
 using JustLoaded.Content;
 
 namespace Base.Def.Weapon;

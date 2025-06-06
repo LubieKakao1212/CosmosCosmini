@@ -4,7 +4,6 @@ using CosmosCosmini.Entities.Behaviors.Def;
 using CosmosCosmini.Graphics;
 using JustLoaded.Content;
 using JustLoaded.Loading;
-using nkast.Aether.Physics2D.Dynamics;
 
 namespace CosmosCosmini.Entities.Def;
 
@@ -21,7 +20,7 @@ public class EntityDef : PolymorphicDef {
     //TODO use shapes from tiled
     public PhysicsDef Physics { get; init; } = new PhysicsDef();
 
-    public virtual Entity Instantiate(World world, EntityManager manager) {
-        return new Entity(this, world, manager);
+    public virtual Entity Instantiate(EntityManager manager) {
+        return new Entity(this, manager);
     }
 }
