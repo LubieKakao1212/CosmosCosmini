@@ -24,6 +24,10 @@ public class HurtRaycastBehavior(HurtRaycastBehaviorDef def, Entity entity) : Ra
                 Type = def.DamageType.Value ?? throw new Exception("TODO") // TODO
             });
         }
+
+        if (def.DespawnOnHit) {
+            entity.DespawnAndReturn();
+        }
     }
 }
 
@@ -31,6 +35,8 @@ public class HurtRaycastBehavior(HurtRaycastBehaviorDef def, Entity entity) : Ra
 public class HurtRaycastBehaviorDef : RaycastBehaviourDef {
 
     public required int BaseDamage { get; init; }
+
+    public bool DespawnOnHit { get; init; } = false;
 
     public required DatabaseReference<DamageType> DamageType { get; init; }
 

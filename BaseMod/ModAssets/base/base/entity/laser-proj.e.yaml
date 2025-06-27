@@ -17,4 +17,5 @@ behaviors:
   - type: "base:motion-hurt"
     baseDamage: 10
     damageType: "base:laser"
+    despawnOnHit: true
   

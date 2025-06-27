@@ -1,10 +1,12 @@
 type: "base:projectile"
-damage: 15
-fireRate: 8/s
+damage: 1
+fireRate: 64/s
 projectile: "base:laser-proj"
+recoil: 0.125
 launchVelocity: 
-   type: "core:const"
-   value: 5
+   type: "core:gaussian"
+   stdDev: 1
+   mean: 5
 scatter: {
    type: "core:gaussian",
    stdDev: 5

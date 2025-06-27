@@ -1,5 +1,14 @@
 frameDuration: 0.15
 sequence:
   frames: [
-    "base:player-ship_0"
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player-ship_0",
+    "base:player_2"
   ]
